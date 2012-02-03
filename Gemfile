@@ -5,7 +5,7 @@ gem "builder"
 gem "pivotal-tracker", "~> 0.3.1"
 
 group :development do
-  gem "rake"
+  gem "rake", "0.8.7"
   gem "jeweler"
   gem "mocha"
   gem "rspec", "~> 2.5.0"

@@ -23,8 +23,6 @@ begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new do |t|
     t.rspec_opts = ['--color']
-    t.rcov = true
-    t.rcov_opts = ['--exclude', 'gems']
   end
 rescue LoadError => e
   puts "RSpec not installed"

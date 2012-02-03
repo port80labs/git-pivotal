@@ -38,3 +38,6 @@ begin
 rescue LoadError => e
   puts "Cucumber not installed"
 end
+
+
+task :default => [:spec, :features]

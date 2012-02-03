@@ -13,5 +13,3 @@ group :development do
   gem "cucumber", "~> 0.9.2"
   gem "aruba", "~> 0.2.3"
 end
-
-gemspec

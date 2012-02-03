@@ -12,14 +12,6 @@ begin
     gemspec.email = "jeff@trydionel.com"
     gemspec.homepage = "http://github.com/trydionel/git-pivotal"
     gemspec.authors = ["Jeff Tucker", "Sam Stokes"]
-    
-    gemspec.add_dependency "builder"
-    gemspec.add_dependency "pivotal-tracker", "~>0.3.1"
-    
-    gemspec.add_development_dependency "rspec", "~>2.5.0"
-    gemspec.add_development_dependency "rcov"
-    gemspec.add_development_dependency "cucumber", "~>0.9.2"
-    gemspec.add_development_dependency "aruba", "~>0.2.3"
   end
   
   Jeweler::GemcutterTasks.new

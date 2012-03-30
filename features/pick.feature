@@ -13,7 +13,7 @@ Feature: General Git Pivotal story-picking features
 
   Scenario: Giving better error messaging
     Given the feature is unestimated
-    When I run "git-feature -D"
+    When I run `git-feature -D`
     Then the output should contain:
       """
       Stories in the started state must be estimated.

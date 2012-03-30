@@ -5,7 +5,7 @@ Feature: git finish
     And I am on the "5799841-feature" branch
 
   Scenario: Executing with no settings
-    When I run "git-finish"
+    When I run `git-finish`
     Then the output should contain:
       """
       Pivotal Tracker API Token and Project ID are required
@@ -13,7 +13,7 @@ Feature: git finish
     And the exit status should be 1
 
   Scenario: Excuting with inline settings
-    When I run "git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815"
+    When I run `git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815`
     Then the output should contain:
       """
       Marking Story 5799841 as finished...
@@ -30,7 +30,7 @@ Feature: git finish
               full-name = Jeff Tucker
               project-id = 52815
       """
-    When I run "git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815"
+    When I run `git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815`
     Then the output should contain:
       """
       Marking Story 5799841 as finished...
@@ -41,7 +41,7 @@ Feature: git finish
 
   Scenario: Executing from a misnamed branch
     Given I am on the "missing-an-id" branch
-    When I run "git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815"
+    When I run `git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815`
     Then the output should contain:
       """
       Branch name must contain a Pivotal Tracker story id
@@ -58,7 +58,7 @@ Feature: git finish
               integration-branch = develop
               project-id = 52815
       """
-    When I run "git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815"
+    When I run `git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815`
     Then the output should contain:
       """
       Marking Story 5799841 as finished...
@@ -77,7 +77,7 @@ Feature: git finish
               full-name = Jeff Tucker
               project-id = 52815
       """
-    When I run "git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815"
+    When I run `git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815`
     Then the output should contain:
       """
       Marking Story 5799841 as finished...

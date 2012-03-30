@@ -14,12 +14,11 @@ begin
     gemspec.authors = ["Jeff Tucker", "Sam Stokes"]
     
     gemspec.add_dependency "builder"
-    gemspec.add_dependency "pivotal-tracker", "~>0.3.1"
+    gemspec.add_dependency "pivotal-tracker", "~>0.5.1"
     
-    gemspec.add_development_dependency "rspec", "~>2.5.0"
-    gemspec.add_development_dependency "rcov"
-    gemspec.add_development_dependency "cucumber", "~>0.9.2"
-    gemspec.add_development_dependency "aruba", "~>0.2.3"
+    gemspec.add_development_dependency "rspec"
+    gemspec.add_development_dependency "cucumber"
+    gemspec.add_development_dependency "aruba"
   end
   
   Jeweler::GemcutterTasks.new
@@ -31,8 +30,6 @@ begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new do |t|
     t.rspec_opts = ['--color']
-    t.rcov = true
-    t.rcov_opts = ['--exclude', 'gems']
   end
 rescue LoadError => e
   puts "RSpec not installed"
@@ -41,7 +38,7 @@ end
 begin
   require 'cucumber/rake/task'
   Cucumber::Rake::Task.new(:features) do |t|
-    t.cucumber_opts = "features --format pretty"
+#    t.cucumber_opts = "features --format pretty"
   end
 rescue LoadError => e
   puts "Cucumber not installed"

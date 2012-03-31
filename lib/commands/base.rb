@@ -7,13 +7,21 @@ module Commands
 
     attr_accessor :input, :output, :options
 
-    def initialize(input=STDIN, output=STDOUT, *args)
-      @input = input
-      @output = output
+    def initialize(*args)
+      @input = STDIN
+      @output = STDOUT
+
       @options = {}
 
       parse_gitconfig
       parse_argv(*args)
+    end
+    
+    def with(input, output)
+      tap do
+        @input = input
+        @output = output
+      end
     end
 
     def put(string, newline=true)

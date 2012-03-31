@@ -4,17 +4,18 @@ require 'pry'
 PIVOTAL_API_KEY = "80f3c308cfdfbaa8f5a21aa524081690"
 PIVOTAL_TEST_PROJECT = 516377
 PIVOTAL_TEST_STORY = 27322725
+PIVOTAL_USER = "Robotic Zach"
 
 Before do
-  @aruba_timeout_seconds = 5
+  @aruba_timeout_seconds = 10
   build_temp_paths
   set_env_variables
 end
 
-at_exit do
+After do
   # The features seem to have trouble repeating accurately without
   # setting the test story to an unstarted feature for the next run.
-  update_test_story("feature", :current_state => "unstarted")
+  delete_created_cards 
 end
 
 def build_temp_paths
@@ -33,18 +34,6 @@ def set_env_variables
   set_env "HOME", File.expand_path(current_dir)
 end
 
-def update_test_story(type, options = {})
-  PivotalTracker::Client.token = PIVOTAL_API_KEY
-  project = PivotalTracker::Project.find(PIVOTAL_TEST_PROJECT)
-  story   = project.stories.find(PIVOTAL_TEST_STORY)
-
-  story.update({
-    :story_type    => type.to_s,
-    :current_state => "unstarted",
-    :estimate      => (type.to_s == "feature" ? 1 : nil)
-  }.merge(options))
-  sleep(4) # let the data propagate
-end
 
 def current_branch
   `git symbolic-ref HEAD`.chomp.split('/').last

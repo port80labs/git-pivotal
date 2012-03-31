@@ -19,6 +19,16 @@ Feature: git feature
       Pivotal Tracker API Token and Project ID are required
       """
     And the exit status should be 1
+    
+  Scenario: Executing when there are no estimated features to start
+    Given I have configured the Git repos for Pivotal
+    And the feature is unestimated
+    When I run `git-feature -D`
+    Then the output should contain:
+      """
+      Stories in the started state must be estimated.
+      """
+    And the exit status should be 1
 
   Scenario: Starting the next feature interactively (without -D option)
     Given I have configured the Git repos for Pivotal

@@ -28,6 +28,12 @@ Given /^I have a(?:n)? (#{STORY_STATE})?\s?Pivotal Tracker (#{STORY_TYPE})$/ do 
   create_test_story type, options
 end
 
+Given /^I have a(?:n)? (#{STORY_STATE})?\s?Pivotal Tracker (#{STORY_TYPE}) named "([^"]+)" with description "([^"]+)"$/ do |status, type, name, description|
+  options = { :name => name, :description => description }
+  options[:current_state] = status if status
+  create_test_story type, options
+end
+
 Given /the feature is unestimated/ do
   update_test_story('feature', :estimate => -1)
 end

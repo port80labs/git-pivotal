@@ -1,7 +1,7 @@
 Feature: git info
 
   Background:
-    Given I have a Pivotal Tracker feature
+    Given I have a Pivotal Tracker feature named "Test Story" with description "This is the description!"
     And I am on the "CURRENT_FEATURE-feature" branch
 
   Scenario: Executing with no settings
@@ -11,7 +11,7 @@ Feature: git info
       Pivotal Tracker API Token and Project ID are required
       """
     And the exit status should be 1
-
+    
   Scenario: Executing with inline options
     When I run `git-info -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT -D`
     Then the output should contain:

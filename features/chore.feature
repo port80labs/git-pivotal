@@ -12,6 +12,14 @@ Feature: git chore
   Background:
     Given I have a Pivotal Tracker chore
 
+  Scenario: Executing with no settings
+    When I run `git-chore`
+    Then the output should contain:
+      """
+      Pivotal Tracker API Token and Project ID are required
+      """
+    And the exit status should be 1
+
   Scenario: Starting the next chore interactively (without -D option)
     Given I have configured the Git repos for Pivotal
     When I run `git-chore` interactively

@@ -2,7 +2,7 @@ Feature: git finish
 
   Background:
     Given I have a started Pivotal Tracker feature
-    And I am on the "27322725-feature" branch
+    And I am on the "CURRENT_FEATURE-feature" branch
 
   Scenario: Executing with no settings
     When I run `git-finish`
@@ -12,13 +12,13 @@ Feature: git finish
       """
     And the exit status should be 1
 
-  Scenario: Excuting with inline settings
-    When I run `git-finish -k 80f3c308cfdfbaa8f5a21aa524081690 -p 516377`
+  Scenario: Executing with inline settings
+    When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
     Then the output should contain:
       """
-      Marking Story 27322725 as finished...
-      Merging 27322725-feature into master
-      Removing 27322725-feature branch
+      Marking Story CURRENT_FEATURE as finished...
+      Merging CURRENT_FEATURE-feature into master
+      Removing CURRENT_FEATURE-feature branch
       """
     And I should be on the "master" branch
 
@@ -26,22 +26,22 @@ Feature: git finish
     Given a file named ".gitconfig" with:
       """
       [pivotal]
-              api-token = 80f3c308cfdfbaa8f5a21aa524081690
-              full-name = Robotic Zach
-              project-id = 516377
+        api-token = PIVOTAL_API_KEY
+        full-name = PIVOTAL_USER
+        project-id = PIVOTAL_TEST_PROJECT
       """
-    When I run `git-finish -k 80f3c308cfdfbaa8f5a21aa524081690 -p 516377`
+    When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
     Then the output should contain:
       """
-      Marking Story 27322725 as finished...
-      Merging 27322725-feature into master
-      Removing 27322725-feature branch
+      Marking Story CURRENT_FEATURE as finished...
+      Merging CURRENT_FEATURE-feature into master
+      Removing CURRENT_FEATURE-feature branch
       """
     And I should be on the "master" branch
 
   Scenario: Executing from a misnamed branch
     Given I am on the "missing-an-id" branch
-    When I run `git-finish -k 80f3c308cfdfbaa8f5a21aa524081690 -p 516377`
+    When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
     Then the output should contain:
       """
       Branch name must contain a Pivotal Tracker story id
@@ -53,36 +53,36 @@ Feature: git finish
     And a file named ".gitconfig" with:
       """
       [pivotal]
-              api-token = 80f3c308cfdfbaa8f5a21aa524081690
-              full-name = Robotic Zach
-              integration-branch = develop
-              project-id = 516377
+        api-token = PIVOTAL_API_KEY
+        full-name = PIVOTAL_USER
+        integration-branch = develop
+        project-id = PIVOTAL_TEST_PROJECT
       """
-    When I run `git-finish -k 80f3c308cfdfbaa8f5a21aa524081690 -p 516377`
+    When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
     Then the output should contain:
       """
-      Marking Story 27322725 as finished...
-      Merging 27322725-feature into develop
-      Removing 27322725-feature branch
+      Marking Story CURRENT_FEATURE as finished...
+      Merging CURRENT_FEATURE-feature into develop
+      Removing CURRENT_FEATURE-feature branch
       """
     And I should be on the "develop" branch
 
   Scenario: Closing chore stories
     Given I have a started Pivotal Tracker chore
-    And I am on the "27322725-chore" branch
+    And I am on the "CURRENT_FEATURE-chore" branch
     And a file named ".gitconfig" with:
       """
       [pivotal]
-              api-token = 80f3c308cfdfbaa8f5a21aa524081690
-              full-name = Robotic Zach
-              project-id = 516377
+        api-token = PIVOTAL_API_KEY
+        full-name = PIVOTAL_USER
+        project-id = PIVOTAL_TEST_PROJECT
       """
-    When I run `git-finish -k 80f3c308cfdfbaa8f5a21aa524081690 -p 516377`
+    When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
     Then the output should contain:
       """
-      Marking Story 27322725 as finished...
-      Merging 27322725-chore into master
-      Removing 27322725-chore branch
+      Marking Story CURRENT_FEATURE as finished...
+      Merging CURRENT_FEATURE-chore into master
+      Removing CURRENT_FEATURE-chore branch
       """
     And I should be on the "master" branch
   

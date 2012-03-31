@@ -22,9 +22,24 @@ Given /^I have configured the Git repos for Pivotal$/ do
   EOT
 end
 
+Given /^I have configured the Git repos for Pivotal with bogus information$/ do
+  step %|a file named ".gitconfig" with:|, <<-EOT.gsub!(/^\s+\S/, '')
+    |[pivotal]
+    |  api-token = badtoken
+    |  full-name = Bad Joe
+    |  integration-branch = whoknows
+    |  project-id = something
+  EOT
+end
+
 Given /^I have a(?:n)? (#{STORY_STATE})?\s?Pivotal Tracker (#{STORY_TYPE})$/ do |status, type|
   options = {}
   options[:current_state] = status if status
+  create_test_story type, options
+end
+
+Given /^I have a(?:n)? unestimated \s?Pivotal Tracker (#{STORY_TYPE})$/ do |type|
+  options = { :estimate => -1 }
   create_test_story type, options
 end
 

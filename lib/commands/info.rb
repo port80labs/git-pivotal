@@ -18,7 +18,11 @@ module Commands
 
       put "Story:         #{story.name}"
       put "URL:           #{story.url}"
-      put "Description:   #{story.description}"
+      put "Labels:        #{story.labels.split(',').join(', ')}" if story.labels
+      put "State:         #{story.accepted_at ? 'accepted' : 'not accepted'}"
+      
+      description = story.description.sub(/^/, '  ').gsub(/\n/, "\n  ")
+      put "Description:\n#{description}\n\n"
 
       return 0
     end

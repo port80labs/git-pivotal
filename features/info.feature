@@ -32,7 +32,9 @@ Feature: git info
       """
       Story:         Test Story
       URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
-      Description:   This is the description!
+      State:         not accepted
+      Description:
+        This is the description!
       """
 
   Scenario: Supplying Pivotal configuration via command line arguments
@@ -41,7 +43,9 @@ Feature: git info
       """
       Story:         Test Story
       URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
-      Description:   This is the description!
+      State:         not accepted
+      Description:
+        This is the description!
       """
 
   Scenario: Grabbing info about a specific card in question topic branch
@@ -52,7 +56,24 @@ Feature: git info
       """
       Story:         Test Chore
       URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
-      Description:   The chore description!
+      State:         not accepted
+      Description:
+        The chore description!
+      """
+
+  Scenario: Grabbing info when the card has labels
+    Given I have a Pivotal Tracker chore named "Test Chore" with description "The chore description!"
+    And the chore is labeled "foo, bar, baz"
+    And I have configured the Git repos for Pivotal
+    When I run `git-info CURRENT_CARD`
+    Then the output should contain:
+      """
+      Story:         Test Chore
+      URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
+      Labels:        bar, baz, foo
+      State:         not accepted
+      Description:
+        The chore description!
       """
 
   Scenario: Grabbing info when not on a topic branch and not supplying a card id
@@ -64,6 +85,5 @@ Feature: git info
       """
       No story id was supplied and you aren't on a topic branch!
       """
-  
   
   

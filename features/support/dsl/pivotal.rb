@@ -35,7 +35,10 @@ module GitPivotal
         set_current_card story
         created_cards << story
         
-        sleep(10) # let the data propagate
+        # let data propagate on Pivotal
+        sleep 4
+        pivotal_project.stories.find(story.id)
+
         story
       end
 
@@ -48,7 +51,12 @@ module GitPivotal
         }.merge(options)
         
         story.update(attrs)
-        sleep(4) # let the data propagate
+
+        # let data propagate on Pivotal
+        sleep 4
+        pivotal_project.stories.find(story.id)
+        
+        story
       end
       
     end

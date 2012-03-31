@@ -6,10 +6,7 @@ Transform /PIVOTAL|CURRENT/ do |placeholder|
     gsub("PIVOTAL_API_KEY", "80f3c308cfdfbaa8f5a21aa524081690").
     gsub("PIVOTAL_TEST_PROJECT", "516377").
     gsub("PIVOTAL_USER", "Robotic Zach").
-    gsub("CURRENT_CARD", current_card.id.to_s).
-    gsub("CURRENT_BUG", current_card.id.to_s).
-    gsub("CURRENT_CHORE", current_card.id.to_s).
-    gsub("CURRENT_FEATURE", current_card.id.to_s)
+    gsub("CURRENT_CARD", current_card.id.to_s)
 end
 
 Given /^I have configured the Git repos for Pivotal$/ do

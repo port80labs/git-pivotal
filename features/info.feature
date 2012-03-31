@@ -2,7 +2,7 @@ Feature: git info
 
   Background:
     Given I have a Pivotal Tracker feature named "Test Story" with description "This is the description!"
-    And I am on the "CURRENT_FEATURE-feature" branch
+    And I am on the "CURRENT_CARD-feature" branch
 
   Scenario: Executing with no settings
     When I run `git-info`
@@ -17,7 +17,7 @@ Feature: git info
     Then the output should contain:
       """
       Story:         Test Story
-      URL:           http://www.pivotaltracker.com/story/show/CURRENT_FEATURE
+      URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
       Description:   This is the description!
       """
 
@@ -34,6 +34,6 @@ Feature: git info
     Then the output should contain:
       """
       Story:         Test Story
-      URL:           http://www.pivotaltracker.com/story/show/CURRENT_FEATURE
+      URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
       Description:   This is the description!
       """

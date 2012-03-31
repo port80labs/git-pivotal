@@ -42,9 +42,9 @@ Feature: git start
     Given I have an unestimated Pivotal Tracker chore
     And I have configured the Git repos for Pivotal
     When I run `git-chore -D`
-    Then the output should contain "Switched to a new branch 'CURRENT_CHORE-chore'"
-    And I should be on the "CURRENT_CHORE-chore" branch
-    And card CURRENT_CHORE is marked is started in Pivotal Tracker
+    Then the output should contain "Switched to a new branch 'CURRENT_CARD-chore'"
+    And I should be on the "CURRENT_CARD-chore" branch
+    And card CURRENT_CARD is marked is started in Pivotal Tracker
 
   # Assumption: that estimating bugs in Pivotal is turned off
   Scenario: Starting the next bug when it is unestimated
@@ -53,7 +53,7 @@ Feature: git start
     When I run `git-bug -D`
     Then the output should contain "Switched to a new branch 'CURRENT_CARD-bugfix'"
     And I should be on the "CURRENT_CARD-bugfix" branch
-    And card CURRENT_BUG is marked is started in Pivotal Tracker
+    And card CURRENT_CARD is marked is started in Pivotal Tracker
 
   Scenario Outline: Starting the next estimated card interactively (without -D option)
     Given I have a Pivotal Tracker <card_type>
@@ -62,7 +62,7 @@ Feature: git start
     And I type "a_purple_<card_type>"
     Then the output should contain "Switched to a new branch 'CURRENT_CARD-a_purple_<card_type>'"
     And I should be on the "CURRENT_CARD-a_purple_<card_type>" branch
-    And card CURRENT_BUG is marked is started in Pivotal Tracker
+    And card CURRENT_CARD is marked is started in Pivotal Tracker
     
     Examples:
       | card_type |

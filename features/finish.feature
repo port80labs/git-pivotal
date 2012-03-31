@@ -2,7 +2,7 @@ Feature: git finish
 
   Background:
     Given I have a started Pivotal Tracker feature
-    And I am on the "CURRENT_FEATURE-feature" branch
+    And I am on the "CURRENT_CARD-feature" branch
 
   Scenario: Executing with no settings
     When I run `git-finish`
@@ -16,9 +16,9 @@ Feature: git finish
     When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
     Then the output should contain:
       """
-      Marking Story CURRENT_FEATURE as finished...
-      Merging CURRENT_FEATURE-feature into master
-      Removing CURRENT_FEATURE-feature branch
+      Marking Story CURRENT_CARD as finished...
+      Merging CURRENT_CARD-feature into master
+      Removing CURRENT_CARD-feature branch
       """
     And I should be on the "master" branch
 
@@ -33,9 +33,9 @@ Feature: git finish
     When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
     Then the output should contain:
       """
-      Marking Story CURRENT_FEATURE as finished...
-      Merging CURRENT_FEATURE-feature into master
-      Removing CURRENT_FEATURE-feature branch
+      Marking Story CURRENT_CARD as finished...
+      Merging CURRENT_CARD-feature into master
+      Removing CURRENT_CARD-feature branch
       """
     And I should be on the "master" branch
 
@@ -61,15 +61,15 @@ Feature: git finish
     When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
     Then the output should contain:
       """
-      Marking Story CURRENT_FEATURE as finished...
-      Merging CURRENT_FEATURE-feature into develop
-      Removing CURRENT_FEATURE-feature branch
+      Marking Story CURRENT_CARD as finished...
+      Merging CURRENT_CARD-feature into develop
+      Removing CURRENT_CARD-feature branch
       """
     And I should be on the "develop" branch
 
   Scenario: Closing chore stories
     Given I have a started Pivotal Tracker chore
-    And I am on the "CURRENT_FEATURE-chore" branch
+    And I am on the "CURRENT_CARD-chore" branch
     And a file named ".gitconfig" with:
       """
       [pivotal]
@@ -80,9 +80,9 @@ Feature: git finish
     When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
     Then the output should contain:
       """
-      Marking Story CURRENT_FEATURE as finished...
-      Merging CURRENT_FEATURE-chore into master
-      Removing CURRENT_FEATURE-chore branch
+      Marking Story CURRENT_CARD as finished...
+      Merging CURRENT_CARD-chore into master
+      Removing CURRENT_CARD-chore branch
       """
     And I should be on the "master" branch
   

@@ -1,5 +1,18 @@
 Feature: git info
 
+  In order to get information about a specific card you can issue one of the following 
+  commands:
+
+    git info
+    git info <options>
+    git info <card_id>
+    git info <card_id> <options>
+
+  Supported options:
+    -k <api_key>    - specify the Pivotal API key to use. Overrides configuration.
+    -p <project_id> - specify the Pivotal project id to use. Overrides configuration.
+    -D              - do not prompt for user input, use recommended values by default.
+    
   Background:
     Given I have a Pivotal Tracker feature named "Test Story" with description "This is the description!"
     And I am on the "CURRENT_CARD-feature" branch
@@ -12,24 +25,8 @@ Feature: git info
       """
     And the exit status should be 1
     
-  Scenario: Executing with inline options
-    When I run `git-info -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT -D`
-    Then the output should contain:
-      """
-      Story:         Test Story
-      URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
-      Description:   This is the description!
-      """
-
-  Scenario: Executing with git configuration
-    Given a file named ".gitconfig" with:
-      """
-      [pivotal]
-              api-token = PIVOTAL_API_KEY
-              full-name = PIVOTAL_USER
-              integration-branch = develop
-              project-id = PIVOTAL_TEST_PROJECT
-      """
+  Scenario: Grabbing info about current topic branch
+    Given I have configured the Git repos for Pivotal
     When I run `git-info`
     Then the output should contain:
       """
@@ -37,3 +34,36 @@ Feature: git info
       URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
       Description:   This is the description!
       """
+
+  Scenario: Supplying Pivotal configuration via command line arguments
+    When I run `git-info -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT -n "PIVOTAL_USER" -D`
+    Then the output should contain:
+      """
+      Story:         Test Story
+      URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
+      Description:   This is the description!
+      """
+
+  Scenario: Grabbing info about a specific card in question topic branch
+    Given I have a Pivotal Tracker chore named "Test Chore" with description "The chore description!"
+    And I have configured the Git repos for Pivotal
+    When I run `git-info CURRENT_CARD`
+    Then the output should contain:
+      """
+      Story:         Test Chore
+      URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
+      Description:   The chore description!
+      """
+
+  Scenario: Grabbing info when not on a topic branch and not supplying a card id
+    Given I have configured the Git repos for Pivotal
+    And I am on the "foo" branch
+    Then I should be on the "foo" branch
+    When I run `git-info`
+    Then the output should contain:
+      """
+      No story id was supplied and you aren't on a topic branch!
+      """
+  
+  
+  

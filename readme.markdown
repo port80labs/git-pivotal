@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/zdennis/git-pivotal.png)](http://travis-ci.org/#!/zdennis/git-pivotal)
+
 This is based on https://github.com/trydionel/git-pivotal but has an extended vision and set of goals to achieve.
 
 Things like:

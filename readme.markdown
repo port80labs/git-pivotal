@@ -1,15 +1,36 @@
-#Git Pivotal
+This is based on https://github.com/trydionel/git-pivotal but has an extended vision and set of goals to achieve.
 
-##Prelude
-You might want to have [this song](http://www.dailymotion.com/video/x9vzh0_olivia-newton-john-lets-get-physica_music) running in the background while you read this.
+Things like:
 
-##Let's Git Pivotal
-Inspired by [Hashrocket's blend of git and Pivotal Tracker](http://reinh.com/blog/2009/03/02/a-git-workflow-for-agile-teams.html) and [a popular article on effective git workflows](http://nvie.com/archives/323), I set off to create a set of utilities to simplify the workflow between the two.
+* Make the existing API more intuitive:
+ * git-bug, git-chore, git-feature should not be separate CLI commands. The common action is start, so goal here is to support "git-start _card\_type_"
+* Users should be able to interact with specific cards when possible.
+ * e.g. "git start 123456" should start card 123456. 
+ * being generic (interacting with next available or specific should apply to all applicable commands)
+* Add more commands to interact with Pivotal:
+ * git block
+ * git unblock
+ * git comments
+ * git label 
+ * git unstart
+ * git accept
+* Add verbosity and dry-run support to commands to communicate to the users what commands will be run
+* Add before/after hooks extension points so people do not have to modify the project in order to do something custom. 
+  * e.g. if you want to build a changelog as card's are finished, this should be able to be done by hooking into the "git finish" command and not require altering the code-base
+* better support for handling merge conflicts (_this may be nothing more than communicating better to the user if a merge conflict happens when issuing a command_)
 
-###Git Feature/Bug/Chore
-The Git Pivotal utility provides three tools to integrate with your Pivotal Tracker project -- `git feature`, `git bug` and `git chore`.  These commands collect the top-most available feature, bug or chore (respectively) from your Pivotal Tracker and creates a unique feature branch for it.
+The main vision for this is simple: Encourage and support good practices and be flexible. 
 
-    1 git-pivotal:master % git feature
+More README to come. See ISSUES for things I want to tackle in this project.
+
+
+### git start - Starting the next available Feature/Bug/Chore
+
+    git start <card_type>
+    
+Replace card\_type in the above command to start the next available card in your Pivotal project, e.g.:
+
+    1 git-pivotal:master % git start feature
     Collecting latest stories from Pivotal Tracker...
     Story: Test git pivotal
     URL:   http://www.pivotaltracker.com/story/show/1234567
@@ -17,8 +38,9 @@ The Git Pivotal utility provides three tools to integrate with your Pivotal Trac
     Enter branch name (will be prepended by 1234567) [feature]: testing
     Creating 1234567-testing branch...
     2 git-pivotal:1234567-testing %
+
     
-###Git Finish
+### git finish
 When on a feature branch, this command will close the associated story in Pivotal Tracker, merge the branch into your integration branch (`master` by default) and remove the feature branch.
 
     3 git-pivotal:1234567-testing % git finish
@@ -27,7 +49,7 @@ When on a feature branch, this command will close the associated story in Pivota
     Removing 1234567-testing branch
     4 git-pivotal:master %
 
-###Git Info
+### git info
 When on a feature/bug/chore branch, this command will display the story information as recorded in Pivotal Tracker.
 
     5 git-pivotal:1234567-testing % git info
@@ -36,12 +58,16 @@ When on a feature/bug/chore branch, this command will display the story informat
     Description:  The awesome story description
     6 git-pivotal:1234567-testing % 
 
-##Installation
+## Installation
+
+_This section is out of date and applies to the original project. It needs to be updated._
+
 To install git-pivotal, simply run
 
     [sudo] gem install git-pivotal
 
-<h2 id="config">Configuration</h2>
+## Configuration
+
 Once installed, git pivotal needs three bits of info: your Pivotal Tracker API Token, your name as it appears in Pivotal Tracker and your Pivotal Tracker project id.  The former two are best set as a global git config options:
 
     git config --global pivotal.api-token 9a9a9a9a9a9a9a9a9a9a
@@ -65,14 +91,3 @@ If you would rather have the story id appended to the branch name (feature-12345
 
 If you're not interested in storing these options in git, you can pass them into git pivotal as command line arguments.  See the usage guides for more details.
 
-##TODO
-This is beta software.  Several things on the ol' todo list:
-
-* <del>Create a general Pivotal::Base#update_attributes method</del>
-* <del>`git pick` doesn't update the story to indicate who claimed it</del>
-* <del>Add command to close/finish currently 'picked' feature</del>
-* <del>Reduce verbosity of `git pick`</del>
-* <del>Allow users to define their development branch name for `git finish`</del>
-* Add option to install git commit hooks which add commit messages to story comments
-* Drop custom Pivotal API in favor of pivotal-tracker gem
-* More that I can't recall at the moment

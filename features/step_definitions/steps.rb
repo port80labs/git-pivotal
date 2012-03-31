@@ -27,10 +27,11 @@ end
 Given /^I have configured the Git repos for Pivotal with bogus information$/ do
   step %|a file named ".gitconfig" with:|, <<-EOT.gsub!(/^\s+\S/, '')
     |[pivotal]
-    |  api-token = badtoken
-    |  full-name = Bad Joe
+    |  api-token          = badtoken
+    |  full-name          = Bad Joe
     |  integration-branch = whoknows
-    |  project-id = something
+    |  project-id         = something
+    |  remote             = origin
   EOT
 end
 

@@ -59,9 +59,17 @@ module Commands
     def project
       @project ||= PivotalTracker::Project.find(options[:project_id])
     end
+    
+    def acceptance_branch
+      options[:acceptance_branch] || "acceptance"
+    end
 
     def integration_branch
       options[:integration_branch] || "master"
+    end
+    
+    def remote
+      options[:remote] || "origin"
     end
 
   private
@@ -70,6 +78,8 @@ module Commands
       token              = get("git config --get pivotal.api-token").strip
       id                 = get("git config --get pivotal.project-id").strip
       name               = get("git config --get pivotal.full-name").strip
+      remote             = get("git config --get pivotal.remote").strip
+      acceptance_branch  = get("git config --get pivotal.acceptance-branch").strip
       integration_branch = get("git config --get pivotal.integration-branch").strip
       only_mine          = get("git config --get pivotal.only-mine").strip
       append_name        = get("git config --get pivotal.append-name").strip
@@ -78,6 +88,8 @@ module Commands
       options[:api_token]          = token              unless token == ""
       options[:project_id]         = id                 unless id == ""
       options[:full_name]          = name               unless name == ""
+      options[:remote]             = remote             unless remote == ""
+      options[:acceptance_branch]  = acceptance_branch  unless acceptance_branch == ""
       options[:integration_branch] = integration_branch unless integration_branch == ""
       options[:only_mine]          = (only_mine != "")  unless name == ""
       options[:append_name]        = (append_name != "")

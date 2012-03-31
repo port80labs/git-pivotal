@@ -90,18 +90,18 @@ describe Commands::Finish do
         @finish.run!.should == 0
       end
 
-      it "should checkout the developer's integration branch" do
-        @finish.expects(:sys).with("git checkout master")
+      it "should checkout the developer's acceptance branch" do
+        @finish.expects(:sys).with("git checkout acceptance")
+        @finish.run!
+      end
+
+      it "should pull down the latest changes into the developer's acceptance branch" do
+        @finish.expects(:sys).with("git pull")
         @finish.run!
       end
 
       it "should merge in the story branch" do
         @finish.expects(:sys).with("git merge --no-ff #{branch_name}")
-        @finish.run!
-      end
-
-      it "should remove the story branch" do
-        @finish.expects(:sys).with("git branch -d #{branch_name}")
         @finish.run!
       end
     end

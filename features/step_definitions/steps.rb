@@ -1,10 +1,19 @@
 STORY_TYPE = /feature|bug|chore|release/
 STORY_STATE = /unscheduled|unstarted|started|finished|delivered|accepted|rejected/
 
+Transform /PIVOTAL|CURRENT/ do |placeholder|
+  placeholder.
+    gsub("PIVOTAL_API_KEY", "80f3c308cfdfbaa8f5a21aa524081690").
+    gsub("PIVOTAL_TEST_PROJECT", "516377").
+    gsub("PIVOTAL_USER", "Robotic Zach").
+    gsub("CURRENT_CARD", current_card.id.to_s).
+    gsub("CURRENT_BUG", current_card.id.to_s)
+end
+
 Given /^I have a(?:n)? (#{STORY_STATE})?\s?Pivotal Tracker (#{STORY_TYPE})$/ do |status, type|
   options = {}
   options[:current_state] = status if status
-  update_test_story(type, options)
+  create_test_story type, options
 end
 
 Given /the feature is unestimated/ do
@@ -21,4 +30,8 @@ end
 
 Then /^I should be on the "([^"]*)" branch$/ do |branch|
   current_branch.should == branch
+end
+
+Then /^card (CURRENT_\w+) is marked is started in Pivotal Tracker$/ do |card_id|
+  assert_card_is_started(card_id)
 end

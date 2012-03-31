@@ -42,14 +42,13 @@ module GitPivotal
         story
       end
 
-      def update_test_story(type, options = {})
+      def update_test_story(options = {})
         story = current_card || create_test_story("feature")
         attrs = {
-          :story_type    => type.to_s,
           :current_state => "unstarted",
-          :estimate      => (type.to_s == "feature" ? 1 : nil)
+          :estimate      => (story.story_type.to_s == "feature" ? 1 : nil)
         }.merge(options)
-        
+
         story.update(attrs)
 
         # let data propagate on Pivotal

@@ -34,6 +34,10 @@ Given /^I have configured the Git repos for Pivotal with bogus information$/ do
   EOT
 end
 
+Given /^the (#{STORY_TYPE}) is labeled "([^"]+)"$/ do |type, labels|
+  update_test_story :labels => labels
+end
+
 Given /^I have a(?:n)? (#{STORY_STATE})?\s?Pivotal Tracker (#{STORY_TYPE})$/ do |status, type|
   options = {}
   options[:current_state] = status if status
@@ -52,7 +56,7 @@ Given /^I have a(?:n)? (#{STORY_STATE})?\s?Pivotal Tracker (#{STORY_TYPE}) named
 end
 
 Given /the feature is unestimated/ do
-  update_test_story('feature', :estimate => -1)
+  update_test_story :estimate => -1
 end
 
 Given /^I am on the "([^"]*)" branch$/ do |branch|

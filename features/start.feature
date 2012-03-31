@@ -84,6 +84,20 @@ Feature: git start
       | chore     |               |
       | feature   |               |
 
+  Scenario Outline: Starting a specific card
+    Given I have a Pivotal Tracker <card_type>
+    And I have configured the Git repos for Pivotal
+    When I run `git-start CURRENT_CARD -D`
+    Then the output should contain "Switched to a new branch 'CURRENT_CARD-<card_type><branch_suffix>'"
+    And I should be on the "CURRENT_CARD-<card_type><branch_suffix>" branch
+    And card CURRENT_CARD is marked is started in Pivotal Tracker
+    
+    Examples:
+      | card_type | branch_suffix |
+      | bug       |     fix       |
+      | chore     |               |
+      | feature   |               |
+
   Scenario Outline: Supplying Pivotal configuration via command line arguments
     Given I have a Pivotal Tracker <card_type>
     And I have configured the Git repos for Pivotal with bogus information

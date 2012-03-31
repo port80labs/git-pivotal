@@ -8,7 +8,8 @@ Transform /PIVOTAL|CURRENT/ do |placeholder|
     gsub("PIVOTAL_USER", "Robotic Zach").
     gsub("CURRENT_CARD", current_card.id.to_s).
     gsub("CURRENT_BUG", current_card.id.to_s).
-    gsub("CURRENT_CHORE", current_card.id.to_s)
+    gsub("CURRENT_CHORE", current_card.id.to_s).
+    gsub("CURRENT_FEATURE", current_card.id.to_s)
 end
 
 Given /^I have configured the Git repos for Pivotal$/ do

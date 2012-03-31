@@ -35,11 +35,12 @@ module GitPivotal
         set_current_card story
         created_cards << story
         
-        sleep(10) # let the data propagate
+        sleep(4) # let the data propagate
+        story
       end
 
       def update_test_story(type, options = {})
-        story = pivotal_project.stories.find(PIVOTAL_TEST_STORY)
+        story = current_card || create_test_story("feature")
         story.update({
           :story_type    => type.to_s,
           :current_state => "unstarted",

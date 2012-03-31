@@ -16,7 +16,6 @@ After do
   # The features seem to have trouble repeating accurately without
   # setting the test story to an unstarted feature for the next run.
   delete_created_cards 
-  update_test_story("feature", :current_state => "unstarted")
 end
 
 def build_temp_paths

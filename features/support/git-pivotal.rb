@@ -19,19 +19,26 @@ After do
   delete_created_cards 
 end
 
-def build_temp_paths
-  _mkdir(current_dir)
+at_exit do
+  FileUtils.rm_r "tmp/aruba"
+  FileUtils.rm_r "tmp/origin.git"
+end
 
+def build_temp_paths
   test_repo = File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_repo'))
-  FileUtils.cp_r(test_repo, current_dir)
-  Dir.chdir(File.join(current_dir, 'test_repo')) do
-    FileUtils.mv('working.git', '.git')
+  
+  FileUtils.cp_r "#{test_repo}/origin.git", "tmp/origin.git"
+  `git clone tmp/origin.git #{current_dir}/working.git`
+  
+  Dir.chdir(current_dir + "/working.git") do
+    system "git branch -D acceptance > /dev/null 2>&1"
+    system "git branch acceptance master > /dev/null 2>&1"
   end
 end
 
 def set_env_variables
-  set_env "GIT_DIR", File.expand_path(File.join(current_dir, 'test_repo', '.git'))
-  set_env "GIT_WORK_TREE", File.expand_path(File.join(current_dir, 'test_repo'))
+  set_env "GIT_DIR", File.expand_path(File.join(current_dir, 'working.git', '.git'))
+  set_env "GIT_WORK_TREE", File.expand_path(File.join(current_dir, 'working.git'))
   set_env "HOME", File.expand_path(current_dir)
 end
 

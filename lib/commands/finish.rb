@@ -13,12 +13,22 @@ module Commands
 
       put "Marking Story #{story_id} as finished..."
       if story.update(:current_state => finished_state)
-        put "Merging #{current_branch} into #{integration_branch}"
-        sys "git checkout #{integration_branch}"
-        sys "git merge --no-ff #{current_branch}"
+        topic_branch = current_branch
+        
+        put "Pushing #{topic_branch} to #{remote}"
+        sys "git push --set-upstream #{remote} #{topic_branch}"
+        
+        put "Pulling #{acceptance_branch}..."
+        sys "git checkout #{acceptance_branch}"
+        sys "git pull"
 
-        put "Removing #{current_branch} branch"
-        sys "git branch -d #{current_branch}"
+        put "Merging #{topic_branch} into #{acceptance_branch}"
+        sys "git merge --no-ff #{topic_branch}"
+  
+        put "Pushing #{acceptance_branch} to #{remote}"
+        sys "git push"
+      
+        put "Now on #{acceptance_branch}."
 
         return 0
       else

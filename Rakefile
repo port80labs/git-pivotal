@@ -3,6 +3,8 @@ require 'rake'
 
 $LOAD_PATH.unshift('lib')
 
+task :default => [:spec, :features]
+
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |gemspec|

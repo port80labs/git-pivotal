@@ -12,15 +12,16 @@ Feature: git bug
   Background:
     Given I have a Pivotal Tracker bug
 
-  Scenario: Starting the next bug using configured defaults
-    Given a file named ".gitconfig" with:
-      """
-      [pivotal]
-              api-token = PIVOTAL_API_KEY
-              full-name = PIVOTAL_USER
-              integration-branch = develop
-              project-id = PIVOTAL_TEST_PROJECT
-      """
+  Scenario: Starting the next bug interactively (without -D option)
+    Given I have configured the Git repos for Pivotal
+    When I run `git-bug` interactively
+    And I type "a_really_bad_bug"
+    Then the output should contain "Switched to a new branch 'CURRENT_BUG-a_really_bad_bug'"
+    And I should be on the "CURRENT_BUG-a_really_bad_bug" branch
+    And card CURRENT_BUG is marked is started in Pivotal Tracker
+
+  Scenario: Starting the next bug using configured defaults (with -D option)
+    Given I have configured the Git repos for Pivotal
     When I run `git-bug -D`
     Then the output should contain "Switched to a new branch 'CURRENT_BUG-bugfix'"
     And I should be on the "CURRENT_BUG-bugfix" branch

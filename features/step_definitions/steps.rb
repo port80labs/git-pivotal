@@ -10,6 +10,16 @@ Transform /PIVOTAL|CURRENT/ do |placeholder|
     gsub("CURRENT_BUG", current_card.id.to_s)
 end
 
+Given /^I have configured the Git repos for Pivotal$/ do
+  step %|a file named ".gitconfig" with:|, <<-EOT.gsub!(/^\s+\S/, '')
+    |[pivotal]
+    |  api-token = PIVOTAL_API_KEY
+    |  full-name = PIVOTAL_USER
+    |  integration-branch = develop
+    |  project-id = PIVOTAL_TEST_PROJECT
+  EOT
+end
+
 Given /^I have a(?:n)? (#{STORY_STATE})?\s?Pivotal Tracker (#{STORY_TYPE})$/ do |status, type|
   options = {}
   options[:current_state] = status if status

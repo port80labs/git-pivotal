@@ -1,8 +1,9 @@
 require 'fileutils'
+require 'pry'
 
-PIVOTAL_API_KEY = "10bfe281783e2bdc2d6592c0ea21e8d5"
-PIVOTAL_TEST_PROJECT = 52815
-PIVOTAL_TEST_ID = 5799841
+PIVOTAL_API_KEY = "80f3c308cfdfbaa8f5a21aa524081690"
+PIVOTAL_TEST_PROJECT = 516377
+PIVOTAL_TEST_STORY = 27322725
 
 Before do
   @aruba_timeout_seconds = 5
@@ -35,7 +36,7 @@ end
 def update_test_story(type, options = {})
   PivotalTracker::Client.token = PIVOTAL_API_KEY
   project = PivotalTracker::Project.find(PIVOTAL_TEST_PROJECT)
-  story   = project.stories.find(PIVOTAL_TEST_ID)
+  story   = project.stories.find(PIVOTAL_TEST_STORY)
 
   story.update({
     :story_type    => type.to_s,
@@ -47,4 +48,23 @@ end
 
 def current_branch
   `git symbolic-ref HEAD`.chomp.split('/').last
+end
+
+module RSpec
+  module Expectations
+    module DifferAsStringAcceptsArrays
+      def self.included(klass)
+        klass.class_eval do
+          alias_method :original_diff_as_string, :diff_as_string
+          define_method :diff_as_string do |data_new, data_old|
+            data_old = data_old.join if data_old.respond_to?(:join)
+            data_new = data_new.join if data_new.respond_to?(:join)
+            original_diff_as_string data_new, data_old
+          end
+        end
+      end
+    end
+      
+    Differ.send :include, DifferAsStringAcceptsArrays
+  end
 end

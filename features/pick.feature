@@ -5,10 +5,10 @@ Feature: General Git Pivotal story-picking features
     And a file named ".gitconfig" with:
       """
       [pivotal]
-              api-token = 10bfe281783e2bdc2d6592c0ea21e8d5
-              full-name = Jeff Tucker
+              api-token = 80f3c308cfdfbaa8f5a21aa524081690
+              full-name = Robotic Zach
               integration-branch = develop
-              project-id = 52815
+              project-id = 516377
       """
 
   Scenario: Giving better error messaging

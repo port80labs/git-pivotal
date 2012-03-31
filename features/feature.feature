@@ -12,26 +12,26 @@ Feature: git feature
     And the exit status should be 1
   
   Scenario: Executing with inline options
-    When I run `git-feature -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815 -D`
+    When I run `git-feature -k 80f3c308cfdfbaa8f5a21aa524081690 -p 516377 -D`
     Then the output should contain:
       """
       Retrieving latest features from Pivotal Tracker...
       Story: Test Story
-      URL:   http://www.pivotaltracker.com/story/show/5799841
+      URL:   http://www.pivotaltracker.com/story/show/27322725
       Updating feature status in Pivotal Tracker...
-      Switched to a new branch '5799841-feature'
+      Switched to a new branch '27322725-feature'
       """
-    And I should be on the "5799841-feature" branch
+    And I should be on the "27322725-feature" branch
 
   Scenario: Executing with git configuration
     Given a file named ".gitconfig" with:
       """
       [pivotal]
-              api-token = 10bfe281783e2bdc2d6592c0ea21e8d5
-              full-name = Jeff Tucker
+              api-token = 80f3c308cfdfbaa8f5a21aa524081690
+              full-name = Robotic Zach
               integration-branch = develop
-              project-id = 52815
+              project-id = 516377
       """
     When I run `git-feature -D`
-    Then the output should contain "Switched to a new branch '5799841-feature'"
-    And I should be on the "5799841-feature" branch
+    Then the output should contain "Switched to a new branch '27322725-feature'"
+    And I should be on the "27322725-feature" branch

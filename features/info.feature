@@ -2,7 +2,7 @@ Feature: git info
 
   Background:
     Given I have a Pivotal Tracker feature
-    And I am on the "5799841-feature" branch
+    And I am on the "27322725-feature" branch
 
   Scenario: Executing with no settings
     When I run `git-info`
@@ -13,11 +13,11 @@ Feature: git info
     And the exit status should be 1
 
   Scenario: Executing with inline options
-    When I run `git-info -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815 -D`
+    When I run `git-info -k 80f3c308cfdfbaa8f5a21aa524081690 -p 516377 -D`
     Then the output should contain:
       """
       Story:         Test Story
-      URL:           http://www.pivotaltracker.com/story/show/5799841
+      URL:           http://www.pivotaltracker.com/story/show/27322725
       Description:   This is the description!
       """
 
@@ -25,15 +25,15 @@ Feature: git info
     Given a file named ".gitconfig" with:
       """
       [pivotal]
-              api-token = 10bfe281783e2bdc2d6592c0ea21e8d5
-              full-name = Jeff Tucker
+              api-token = 80f3c308cfdfbaa8f5a21aa524081690
+              full-name = Robotic Zach
               integration-branch = develop
-              project-id = 52815
+              project-id = 516377
       """
     When I run `git-info`
     Then the output should contain:
       """
       Story:         Test Story
-      URL:           http://www.pivotaltracker.com/story/show/5799841
+      URL:           http://www.pivotaltracker.com/story/show/27322725
       Description:   This is the description!
       """

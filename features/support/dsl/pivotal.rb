@@ -35,7 +35,7 @@ module GitPivotal
         set_current_card story
         created_cards << story
         
-        sleep(4) # let the data propagate
+        sleep(10) # let the data propagate
         story
       end
 

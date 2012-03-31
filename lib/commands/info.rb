@@ -2,12 +2,17 @@ require 'commands/base'
 
 module Commands
   class Info < Base
+    
+    def initialize(*args)
+      @story_id = args.shift if args.first =~ /^(\d+)$/
+      super(*args)
+    end
 
     def run!
       super
 
       unless story_id
-        put "Branch name must contain a Pivotal Tracker story id"
+        put "No story id was supplied and you aren't on a topic branch!"
         return 1
       end
 
@@ -21,7 +26,7 @@ module Commands
   protected
 
     def story_id
-      current_branch[/\d+/].to_i
+      @story_id || current_branch[/\d+/]
     end
 
     def story

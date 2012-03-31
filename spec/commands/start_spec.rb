@@ -14,9 +14,14 @@ describe Commands::Start do
     it "returns the Command::Feature when the first argument is feature" do
       Commands::Start.for("feature").should be_instance_of(Commands::Feature)
     end
+
+    it "returns the Command::Card when the first argument is a card id" do
+      Commands::Start.for("123456").should be_instance_of(Commands::Card)
+    end
+
     
     it "raises when the command is unknown card type" do
-      expect { Commands::Start.for("unknown") }.should raise_error(ArgumentError, "Unknown command type requested: unknown")
+      expect { Commands::Start.for("unknown") }.should raise_error(ArgumentError, "Unknown card identifier given: unknown")
     end
     
   end

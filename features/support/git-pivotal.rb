@@ -7,7 +7,8 @@ PIVOTAL_TEST_STORY = 27322725
 PIVOTAL_USER = "Robotic Zach"
 
 Before do
-  @aruba_timeout_seconds = 10
+  @aruba_io_wait_seconds = 1
+  @aruba_timeout_seconds = 60
   build_temp_paths
   set_env_variables
 end

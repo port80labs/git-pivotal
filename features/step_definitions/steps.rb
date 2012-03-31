@@ -9,6 +9,11 @@ Transform /PIVOTAL|CURRENT/ do |placeholder|
     gsub("CURRENT_CARD", current_card.id.to_s)
 end
 
+Given "I debug" do
+  require 'pry'
+  binding.pry
+end
+
 Given /^I have configured the Git repos for Pivotal$/ do
   step %|a file named ".gitconfig" with:|, <<-EOT.gsub!(/^\s+\S/, '')
     |[pivotal]

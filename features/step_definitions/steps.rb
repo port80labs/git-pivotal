@@ -36,6 +36,10 @@ Given /^I have configured the Git repos for Pivotal with bogus information$/ do
   EOT
 end
 
+Given /^the "([^"]+)" commented on the card "([^"]+)"$/ do |author, text|
+  comment_on_story :author => author, :text => text
+end
+
 Given /^the (#{STORY_TYPE}) is labeled "([^"]+)"$/ do |type, labels|
   update_test_story :labels => labels
 end

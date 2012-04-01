@@ -24,7 +24,7 @@ module Commands
       
       put "\nDescription:\n"
       put wrap_text("#{story.description}\n", colwidth).gsub(/^/, '  ').chomp
-      
+
       if options[:comments]
         put "\nComments:\n"
         story.notes.all.each do |note|
@@ -32,7 +32,7 @@ module Commands
           put wrap_text(note.text, colwidth - 2).gsub(/^/, '    ')
         end
       end
-
+      
       return 0
     end
 

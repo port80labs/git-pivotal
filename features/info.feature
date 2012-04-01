@@ -9,6 +9,7 @@ Feature: git info
     git info <card_id> <options>
 
   Supported options:
+    --comments      - displays comments for the card
     -k <api_key>    - specify the Pivotal API key to use. Overrides configuration.
     -p <project_id> - specify the Pivotal project id to use. Overrides configuration.
     -D              - do not prompt for user input, use recommended values by default.
@@ -75,6 +76,15 @@ Feature: git info
       Description:
         The chore description!
       """
+
+  Scenario: Requesting comments on a card using --comments
+    Given I have a Pivotal Tracker chore named "Test Chore" with description "The chore description!"
+    And the "PIVOTAL_USER" commented on the card "Well, this looks mighty fine!"
+    And I have configured the Git repos for Pivotal
+    When I run `git-info CURRENT_CARD --comments`
+    Then the output should contain "Comments:"
+    And the output should contain "Well, this looks mighty fine!"
+    And the output should contain "PIVOTAL_USER"
 
   Scenario: Grabbing info when not on a topic branch and not supplying a card id
     Given I have configured the Git repos for Pivotal

@@ -48,6 +48,40 @@ Feature: git block
       We need more information
       """
 
+  Scenario: Blocking a specific card with a message argument
+    Given I have configured the Git repos for Pivotal
+    When I run `git-block CURRENT_CARD -m "We need more information"`
+    Then the output should contain "Story CURRENT_CARD has been blocked."
+    When the current card is refreshed
+    Then the card CURRENT_CARD should have the "blocked" label
+    And the card CURRENT_CARD should have the comment by "PIVOTAL_USER":
+      """
+      We need more information
+      """
+
+  Scenario: Blocking a specific card and being prompted for a message
+    Given I have configured the Git repos for Pivotal
+    When I run `git-block CURRENT_CARD` interactively
+    When I type "We need more information"
+    Then the output should contain "Story CURRENT_CARD has been blocked."
+    When the current card is refreshed
+    Then the card CURRENT_CARD should have the "blocked" label
+    And the card CURRENT_CARD should have the comment by "PIVOTAL_USER":
+      """
+      We need more information
+      """
+
+  Scenario: Blocking a card that is already blocked
+    Given I have configured the Git repos for Pivotal
+    And the card is labeled "blocked"
+    When I run `git-block CURRENT_CARD -m "We need more information"`
+    Then the output should contain "Story CURRENT_CARD is already blocked."
+    When the current card is refreshed
+    Then the card CURRENT_CARD should not have the comment:
+      """
+      We need more information
+      """
+
   Scenario: Trying to block when not on a topic branch and not supplying a card id
     Given I have configured the Git repos for Pivotal
     And I am on the "foo" branch

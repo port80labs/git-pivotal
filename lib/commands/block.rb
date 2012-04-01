@@ -17,6 +17,11 @@ module Commands
         return 1
       end
       
+      if story.labels.to_s.include?(BlockedLabel)
+        put "Story #{story_id} is already blocked."
+        return 0
+      end
+      
       message = options[:message].to_s
 
       if message.empty?

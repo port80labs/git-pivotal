@@ -51,6 +51,10 @@ module Commands
     end
 
   protected
+  
+    def on_parse(opts)
+      # no-op, override in sub-class to provide command specific options
+    end
 
     def current_branch
       @current_branch ||= get('git symbolic-ref HEAD').chomp.split('/').last
@@ -100,8 +104,8 @@ module Commands
       OptionParser.new do |opts|
         opts.banner = "Usage: git pick [options]"
         opts.on("-k", "--api-key=", "Pivotal Tracker API key") { |k| options[:api_token] = k }
-        opts.on("-p", "--project-id=", "Pivotal Trakcer project id") { |p| options[:project_id] = p }
-        opts.on("-n", "--full-name=", "Pivotal Trakcer full name") { |n| options[:full_name] = n }
+        opts.on("-p", "--project-id=", "Pivotal Tracker project id") { |p| options[:project_id] = p }
+        opts.on("-n", "--full-name=", "Pivotal Tracker full name") { |n| options[:full_name] = n }
         opts.on("-b", "--integration-branch=", "The branch to merge finished stories back down onto") { |b| options[:integration_branch] = b }
         opts.on("-m", "--only-mine", "Only select Pivotal Tracker stories assigned to you") { |m| options[:only_mine] = m }
         opts.on("-S", "--use-ssl", "Use SSL for connection to Pivotal Tracker (for private repos(?))") { |s| options[:use_ssl] = s }
@@ -109,6 +113,9 @@ module Commands
         opts.on("-D", "--defaults", "Accept default options. No-interaction mode") { |d| options[:defaults] = d }
         opts.on("-q", "--quiet", "Quiet, no-interaction mode") { |q| options[:quiet] = q }
         opts.on("-v", "--[no-]verbose", "Run verbosely") { |v| options[:verbose] = v }
+        
+        on_parse(opts)
+        
         opts.on_tail("-h", "--help", "This usage guide") { put opts.to_s; exit 0 }
       end.parse!(args)
     end

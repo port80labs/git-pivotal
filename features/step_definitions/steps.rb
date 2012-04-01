@@ -40,7 +40,7 @@ Given /^the "([^"]+)" commented on the card "([^"]+)"$/ do |author, text|
   comment_on_story :author => author, :text => text
 end
 
-Given /^the (#{STORY_TYPE}) is labeled "([^"]+)"$/ do |type, labels|
+Given /^the (#{STORY_TYPE}|card) is labeled "([^"]+)"$/ do |type, labels|
   update_test_story :labels => labels
 end
 
@@ -95,6 +95,11 @@ Then /^the card CURRENT_CARD should have the comment by "([^"]*)":$/ do |author,
     note.text.should include(str)
   end
 end
+
+Then /^the card CURRENT_CARD should not have the comment:$/ do |str|
+  current_card.notes.all.detect{ |n| n.text.include?(str) }.should be_nil
+end
+
 
 Then /^I should be on the "([^"]*)" branch$/ do |branch|
   current_branch.should == branch

@@ -41,6 +41,13 @@ module GitPivotal
 
         story
       end
+      
+      def comment_on_story(options = {})
+        current_card.notes.create options
+
+        # let data propagate on Pivotal
+        sleep 4
+      end
 
       def update_test_story(options = {})
         story = current_card || create_test_story("feature")

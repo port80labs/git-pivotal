@@ -85,8 +85,12 @@ When /^the current card is refreshed$/ do
   refresh_current_card!
 end
 
-Then /^the card CURRENT_CARD should have the "([^"]*)" label$/ do |label|
-  current_card.labels.should include(label)
+Then /^the card CURRENT_CARD should (not )?have the "([^"]*)" label$/ do |negate, label|
+  if negate
+    current_card.labels.to_s.should_not include(label)
+  else
+    current_card.labels.to_s.should include(label)
+  end
 end
 
 Then /^the card CURRENT_CARD should have the comment by "([^"]*)":$/ do |author, str|

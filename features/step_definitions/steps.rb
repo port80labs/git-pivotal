@@ -19,7 +19,8 @@ Given /^I have configured the Git repos for Pivotal$/ do
     |[pivotal]
     |  api-token = PIVOTAL_API_KEY
     |  full-name = PIVOTAL_USER
-    |  integration-branch = develop
+    |  acceptance-branch  = acceptance
+    |  integration-branch = master
     |  project-id = PIVOTAL_TEST_PROJECT
   EOT
 end
@@ -56,8 +57,16 @@ Given /^I have a(?:n)? (#{STORY_STATE})?\s?Pivotal Tracker (#{STORY_TYPE}) named
   create_test_story type, options
 end
 
-Given /the feature is unestimated/ do
+Given /the card is a (#{STORY_TYPE})/ do |type|
+  update_test_story :story_type => type
+end
+
+Given /the (#{STORY_TYPE}) is unestimated/ do |type|
   update_test_story :estimate => -1
+end
+
+Given /the (#{STORY_TYPE}) is (#{STORY_STATE})/ do |type, state|
+  update_test_story :current_state => state
 end
 
 Given /^I am on the "([^"]*)" branch$/ do |branch|

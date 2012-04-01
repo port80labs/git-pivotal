@@ -95,25 +95,46 @@ Feature: git accept
       """
     And I should be on the "release" branch
 
-  Scenario: Closing chore stories
-    Given I have a started Pivotal Tracker chore
-    And I am on the "CURRENT_CARD-chore" branch
-    And a file named ".gitconfig" with:
-      """
-      [pivotal]
-        api-token = PIVOTAL_API_KEY
-        full-name = PIVOTAL_USER
-        project-id = PIVOTAL_TEST_PROJECT
-      """
+  Scenario Outline: Accepting cards in an acceptable state
+    Given I have configured the Git repos for Pivotal
+    And the card is a <card_type>
+    And the <card_type> is <card_state>
     When I run `git-accept -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
     Then the output should contain:
       """
       Marking Story CURRENT_CARD as accepted...
-      Pushing CURRENT_CARD-chore to origin
+      Pushing CURRENT_CARD-feature to origin
       Pulling master...
-      Merging CURRENT_CARD-chore into master
+      Merging CURRENT_CARD-feature into master
       Pushing master to origin
       Now on master.
       """
     And I should be on the "master" branch
+    
+    Examples:
+      | card_type | card_state |
+      | chore     | accepted   |
+      | bug       | finished   |
+      | bug       | delivered  |
+      | feature   | finished   |
+      | feature   | delivered  |
   
+  Scenario Outline: You can't accept cards that aren't ready to be accepted
+    Given I have configured the Git repos for Pivotal
+    And the card is a <card_type>
+    And the <card_type> is <card_state>
+    When I run `git-accept -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
+    Then the output should contain:
+      """
+      Story is not in an acceptable state. It's currently <card_state>.
+      """
+    And I should be on the "CURRENT_CARD-feature" branch
+
+    Examples:
+      | card_type | card_state |
+      | bug       | unstarted  |
+      | bug       | started    |
+      | chore     | unstarted  |
+      | feature   | unstarted  |
+      | feature   | started    |
+      | feature   | rejected   |

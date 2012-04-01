@@ -2,7 +2,6 @@ require 'commands/base'
 
 module Commands
   class Accept < Base
-
     def run!
       super
 
@@ -11,6 +10,18 @@ module Commands
         return 1
       end
 
+      if story_is_acceptable?
+        accept_story!
+        return 0
+      else
+        put "Story is not in an acceptable state. It's currently #{story.current_state}."
+        return 1
+      end
+    end
+
+  protected
+  
+    def accept_story!
       put "Marking Story #{story_id} as accepted..."
       if story.update(:current_state => "accepted")
         topic_branch = current_branch
@@ -37,8 +48,22 @@ module Commands
         return 1
       end
     end
-
-  protected
+  
+    def chore_and_acceptable?
+      story.story_type == "chore" && story.current_state == "accepted"
+    end
+    
+    def bug_and_acceptable?
+      story.story_type == "bug" && %(finished delivered).include?(story.current_state)
+    end
+    
+    def feature_and_acceptable?
+      story.story_type == "feature" && %(finished delivered).include?(story.current_state)
+    end
+  
+    def story_is_acceptable?
+      chore_and_acceptable? || bug_and_acceptable? || feature_and_acceptable?
+    end
 
     def story_id
       match = current_branch[/\d+/] and match.to_i

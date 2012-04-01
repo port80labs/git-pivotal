@@ -72,6 +72,10 @@ module Commands
       options[:integration_branch] || "master"
     end
     
+    def full_name
+      options[:full_name]
+    end
+    
     def remote
       options[:remote] || "origin"
     end

@@ -81,6 +81,21 @@ Given /^I have a "([^"]*)" branch$/ do |branch|
   `git branch #{branch} > /dev/null 2>&1`
 end
 
+When /^the current card is refreshed$/ do
+  refresh_current_card!
+end
+
+Then /^the card CURRENT_CARD should have the "([^"]*)" label$/ do |label|
+  current_card.labels.should include(label)
+end
+
+Then /^the card CURRENT_CARD should have the comment by "([^"]*)":$/ do |author, str|
+  current_card.notes.all.last.tap do |note|
+    note.author.should eq(author)
+    note.text.should include(str)
+  end
+end
+
 Then /^I should be on the "([^"]*)" branch$/ do |branch|
   current_branch.should == branch
 end

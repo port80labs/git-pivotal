@@ -19,6 +19,10 @@ module GitPivotal
         data[:current_card]
       end
       
+      def refresh_current_card!
+        set_current_card pivotal_project.stories.find(current_card.id)
+      end
+      
       def set_current_card(card)
         data[:current_card] = card
       end

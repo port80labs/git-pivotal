@@ -2,7 +2,7 @@ require 'commands/base'
 
 module Commands
   class Block < Base
-    BlockedLabel = "blocked"
+    Label = "blocked"
     MessagePrefix = "Blocked:"
     
     def initialize(*args)
@@ -18,7 +18,7 @@ module Commands
         return 1
       end
       
-      if story.labels.to_s.include?(BlockedLabel)
+      if story.labels.to_s.include?(Label)
         put "Story #{story_id} is already blocked."
         return 0
       end
@@ -34,7 +34,7 @@ module Commands
         end
       end
       
-      labels = story.labels.to_s.split(",").concat([BlockedLabel]).join(",")
+      labels = story.labels.to_s.split(",").concat([Label]).join(",")
       story.update :labels => labels
       story.notes.create :author => full_name, :text => "#{MessagePrefix} #{message}"
       put "Story #{story_id} has been blocked."

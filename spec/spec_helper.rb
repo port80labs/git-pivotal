@@ -15,7 +15,7 @@ RSpec.configure do |config|
 end
 
 specdir = File.expand_path(File.join(File.dirname(__FILE__), '..'))
-require File.join(specdir, 'lib','git-pivotal')
+require File.join(specdir, 'lib','git-pivotal-tracker')
 
 require File.join(File.dirname(__FILE__), 'factories')
 

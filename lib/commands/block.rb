@@ -3,6 +3,7 @@ require 'commands/base'
 module Commands
   class Block < Base
     BlockedLabel = "blocked"
+    MessagePrefix = "Blocked:"
     
     def initialize(*args)
       @story_id = args.shift if args.first =~ /^(\d+)$/
@@ -35,7 +36,7 @@ module Commands
       
       labels = story.labels.to_s.split(",").concat([BlockedLabel]).join(",")
       story.update :labels => labels
-      story.notes.create :author => full_name, :text => message
+      story.notes.create :author => full_name, :text => "#{MessagePrefix} #{message}"
       put "Story #{story_id} has been blocked."
 
       return 0

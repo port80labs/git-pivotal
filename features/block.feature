@@ -33,7 +33,7 @@ Feature: git block
     Then the card CURRENT_CARD should have the "blocked" label
     And the card CURRENT_CARD should have the comment by "PIVOTAL_USER":
       """
-      We need more information
+      Blocked: We need more information
       """
 
   Scenario: Blocking the current topic branch and being prompted for a message
@@ -45,7 +45,7 @@ Feature: git block
     Then the card CURRENT_CARD should have the "blocked" label
     And the card CURRENT_CARD should have the comment by "PIVOTAL_USER":
       """
-      We need more information
+      Blocked: We need more information
       """
 
   Scenario: Blocking a specific card with a message argument
@@ -56,7 +56,7 @@ Feature: git block
     Then the card CURRENT_CARD should have the "blocked" label
     And the card CURRENT_CARD should have the comment by "PIVOTAL_USER":
       """
-      We need more information
+      Blocked: We need more information
       """
 
   Scenario: Blocking a specific card and being prompted for a message
@@ -68,7 +68,7 @@ Feature: git block
     Then the card CURRENT_CARD should have the "blocked" label
     And the card CURRENT_CARD should have the comment by "PIVOTAL_USER":
       """
-      We need more information
+      Blocked: We need more information
       """
 
   Scenario: Blocking a card that is already blocked
@@ -79,7 +79,7 @@ Feature: git block
     When the current card is refreshed
     Then the card CURRENT_CARD should not have the comment:
       """
-      We need more information
+      Blocked: We need more information
       """
 
   Scenario: Trying to block when not on a topic branch and not supplying a card id
@@ -92,4 +92,3 @@ Feature: git block
       No story id was supplied and you aren't on a topic branch!
       """
   
-    

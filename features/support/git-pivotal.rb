@@ -25,10 +25,12 @@ at_exit do
 end
 
 def build_temp_paths
-  test_repo = File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_repo'))
+  dir = File.expand_path(File.dirname(__FILE__))
+  test_repo = File.expand_path(File.join(dir, '..', 'test_repo'))
+  tmp = File.expand_path(File.join(dir, '..', '..', 'tmp'))
   
-  FileUtils.cp_r "#{test_repo}/origin.git", "tmp/origin.git"
-  `git clone tmp/origin.git #{current_dir}/working.git`
+  FileUtils.cp_r "#{test_repo}/origin.git", "#{tmp}/origin.git"
+  `git clone #{tmp}/origin.git #{current_dir}/working.git`
   
   Dir.chdir(current_dir + "/working.git") do
     system "git branch -D acceptance > /dev/null 2>&1"

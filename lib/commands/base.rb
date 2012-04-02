@@ -30,7 +30,7 @@ module Commands
 
     def sys(cmd)
       put cmd if options[:verbose]
-      system "#{cmd} > /dev/null 2>&1"
+      system cmd #"#{cmd} > /dev/null 2>&1"
     end
 
     def get(cmd)
@@ -84,8 +84,8 @@ module Commands
 
     def parse_gitconfig
       token              = get("git config --get pivotal.api-token").strip
-      id                 = get("git config --get pivotal.project-id").strip
       name               = get("git config --get pivotal.full-name").strip
+      id                 = get("git config --get pivotal.project-id").strip
       remote             = get("git config --get pivotal.remote").strip
       acceptance_branch  = get("git config --get pivotal.acceptance-branch").strip
       integration_branch = get("git config --get pivotal.integration-branch").strip

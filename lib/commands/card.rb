@@ -5,7 +5,7 @@ module Commands
     attr_accessor :story_id
 
     def type
-      nil
+      "story"
     end
     
     def plural_type

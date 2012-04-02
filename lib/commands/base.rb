@@ -30,7 +30,7 @@ module Commands
 
     def sys(cmd)
       put cmd if options[:verbose]
-      system "#{cmd} > /dev/null 2>&1"
+      system cmd #"#{cmd} > /dev/null 2>&1"
     end
 
     def get(cmd)

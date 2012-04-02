@@ -54,11 +54,11 @@ module Commands
     end
     
     def bug_and_acceptable?
-      story.story_type == "bug" && %(finished delivered).include?(story.current_state)
+      story.story_type == "bug" && %(finished delivered accepted).include?(story.current_state)
     end
     
     def feature_and_acceptable?
-      story.story_type == "feature" && %(finished delivered).include?(story.current_state)
+      story.story_type == "feature" && %(finished delivered accepted).include?(story.current_state)
     end
   
     def story_is_acceptable?

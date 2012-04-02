@@ -116,8 +116,10 @@ Feature: git accept
       | chore     | accepted   |
       | bug       | finished   |
       | bug       | delivered  |
+      | bug       | accepted   |
       | feature   | finished   |
       | feature   | delivered  |
+      | feature   | accepted   |
   
   Scenario Outline: You can't accept cards that aren't ready to be accepted
     Given I have configured the Git repos for Pivotal

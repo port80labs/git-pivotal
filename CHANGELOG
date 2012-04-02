@@ -1,3 +1,9 @@
+v 0.9.1
+- updating git-accept to work with cards that already accepted in Pivotal
+
+v 0.9.0
+- first release of new command set: accept, block, finish, info, start, unblock
+
 v 0.8.1
 - Improve error reporting when interacting with PivotalTracker
 - Add SSL project support [bunnymatic (Mr Rogers)]

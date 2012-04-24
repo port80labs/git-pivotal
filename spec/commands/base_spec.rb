@@ -64,6 +64,24 @@ describe Commands::Base do
     @pick = Commands::Base.new("--no-verbose").with(@input, @output)
     @pick.options[:verbose].should be_false
   end
+  
+  it "should respect verbose from git config if it's set true (case insensitive)" do
+    Commands::Base.any_instance.stubs(:get).with("git config --get pivotal.verbose").returns("truE")
+    @pick = Commands::Base.new
+    @pick.options[:verbose].should be_true
+  end
+
+  it "should respect verbose from git config if it's set true (case insensitive)" do
+    Commands::Base.any_instance.stubs(:get).with("git config --get pivotal.verbose").returns("falSe")
+    @pick = Commands::Base.new
+    @pick.options[:verbose].should be_false
+  end
+
+  it "should be verbose by default" do
+    Commands::Base.any_instance.stubs(:get).with("git config --get pivotal.verbose").returns("")
+    @pick = Commands::Base.new
+    @pick.options[:verbose].should be_true
+  end
 
   it "should set the integration branch with the -b option" do
     @pick = Commands::Base.new("-b", "integration").with(@input, @output)

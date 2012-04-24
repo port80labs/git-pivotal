@@ -27,7 +27,7 @@ Feature: git block
 
   Scenario: Executing with no settings
     When I run `git-unblock`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Pivotal Tracker API Token and Project ID are required
       """
@@ -61,7 +61,7 @@ Feature: git block
     And I am on the "foo" branch
     Then I should be on the "foo" branch
     When I run `git-unblock`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       No story id was supplied and you aren't on a topic branch!
       """

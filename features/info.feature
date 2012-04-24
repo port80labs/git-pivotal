@@ -20,7 +20,7 @@ Feature: git info
 
   Scenario: Executing with no settings
     When I run `git-info`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Pivotal Tracker API Token and Project ID are required
       """
@@ -29,7 +29,7 @@ Feature: git info
   Scenario: Grabbing info about current topic branch
     Given I have configured the Git repos for Pivotal
     When I run `git-info`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Story:         Test Story
       URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
@@ -40,7 +40,7 @@ Feature: git info
 
   Scenario: Supplying Pivotal configuration via command line arguments
     When I run `git-info -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT -n "PIVOTAL_USER" -D`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Story:         Test Story
       URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
@@ -53,7 +53,7 @@ Feature: git info
     Given I have a Pivotal Tracker chore named "Test Chore" with description "The chore description!"
     And I have configured the Git repos for Pivotal
     When I run `git-info CURRENT_CARD`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Story:         Test Chore
       URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
@@ -67,7 +67,7 @@ Feature: git info
     And the chore is labeled "foo, bar, baz"
     And I have configured the Git repos for Pivotal
     When I run `git-info CURRENT_CARD`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Story:         Test Chore
       URL:           http://www.pivotaltracker.com/story/show/CURRENT_CARD
@@ -91,7 +91,7 @@ Feature: git info
     And I am on the "foo" branch
     Then I should be on the "foo" branch
     When I run `git-info`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       No story id was supplied and you aren't on a topic branch!
       """

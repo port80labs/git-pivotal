@@ -23,5 +23,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency(%q<aruba>, [">= 0"])
   s.add_development_dependency(%q<rspec>, [">= 0"])
   s.add_development_dependency(%q<cucumber>, [">= 0"])
+  s.add_development_dependency(%q<pry>, [">= 0"])
 end
 

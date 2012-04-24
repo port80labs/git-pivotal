@@ -25,7 +25,7 @@ Feature: git finish
 
   Scenario: Executing with no settings
     When I run `git-finish`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Pivotal Tracker API Token and Project ID are required
       """
@@ -33,7 +33,7 @@ Feature: git finish
 
   Scenario: Executing with inline settings
     When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Marking Story CURRENT_CARD as finished...
       Pushing CURRENT_CARD-feature to origin
@@ -53,7 +53,7 @@ Feature: git finish
         project-id = PIVOTAL_TEST_PROJECT
       """
     When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Marking Story CURRENT_CARD as finished...
       Pushing CURRENT_CARD-feature to origin
@@ -67,7 +67,7 @@ Feature: git finish
   Scenario: Executing from a misnamed branch
     Given I am on the "missing-an-id" branch
     When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Branch name must contain a Pivotal Tracker story id
       """
@@ -84,7 +84,7 @@ Feature: git finish
         project-id = PIVOTAL_TEST_PROJECT
       """
     When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Marking Story CURRENT_CARD as finished...
       Pushing CURRENT_CARD-feature to origin
@@ -106,7 +106,7 @@ Feature: git finish
         project-id = PIVOTAL_TEST_PROJECT
       """
     When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Marking Story CURRENT_CARD as finished...
       Pushing CURRENT_CARD-chore to origin

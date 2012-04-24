@@ -53,7 +53,7 @@ Feature: git accept
         project-id = PIVOTAL_TEST_PROJECT
       """
     When I run `git-accept -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Marking Story CURRENT_CARD as accepted...
       Pushing CURRENT_CARD-feature to origin
@@ -84,7 +84,7 @@ Feature: git accept
         project-id = PIVOTAL_TEST_PROJECT
       """
     When I run `git-accept -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Marking Story CURRENT_CARD as accepted...
       Pushing CURRENT_CARD-feature to origin

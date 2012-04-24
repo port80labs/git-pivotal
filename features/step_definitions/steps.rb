@@ -22,6 +22,7 @@ Given /^I have configured the Git repos for Pivotal$/ do
     |  acceptance-branch  = acceptance
     |  integration-branch = master
     |  project-id = PIVOTAL_TEST_PROJECT
+    |  verbose    = false
   EOT
 end
 
@@ -33,6 +34,7 @@ Given /^I have configured the Git repos for Pivotal with bogus information$/ do
     |  integration-branch = whoknows
     |  project-id         = something
     |  remote             = origin
+    |  verbose            = false
   EOT
 end
 
@@ -111,4 +113,10 @@ end
 
 Then /^card (CURRENT_\w+) is marked is started in Pivotal Tracker$/ do |card_id|
   assert_card_is_started(card_id)
+end
+
+Then /^the output should contain each line:$/ do |str|
+  str.split("\n").each do |line|
+    assert_partial_output(line, all_output)
+  end
 end

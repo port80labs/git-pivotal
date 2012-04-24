@@ -29,8 +29,12 @@ module Commands
     end
 
     def sys(cmd)
-      put cmd if options[:verbose]
-      system cmd #"#{cmd} > /dev/null 2>&1"
+      if options[:verbose]
+        put cmd
+        system cmd
+      else
+        system "#{cmd} > /dev/null 2>&1"
+      end
     end
 
     def get(cmd)
@@ -79,7 +83,7 @@ module Commands
     def remote
       options[:remote] || "origin"
     end
-
+    
   private
 
     def parse_gitconfig
@@ -92,6 +96,7 @@ module Commands
       only_mine          = get("git config --get pivotal.only-mine").strip
       append_name        = get("git config --get pivotal.append-name").strip
       use_ssl            = get("git config --get pivotal.use-ssl").strip
+      verbose            = get("git config --get pivotal.verbose").strip
 
       options[:api_token]          = token              unless token == ""
       options[:project_id]         = id                 unless id == ""
@@ -102,6 +107,8 @@ module Commands
       options[:only_mine]          = (only_mine != "")  unless name == ""
       options[:append_name]        = (append_name != "")
       options[:use_ssl] = (/^true$/i.match(use_ssl))
+      
+      options[:verbose] = verbose == "" ? true : (/^true$/i.match(verbose))
     end
 
     def parse_argv(*args)

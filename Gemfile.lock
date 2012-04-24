@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    git-pivotal-tracker (0.9.0)
+    git-pivotal-tracker (0.9.1)
       pivotal-tracker
 
 GEM
@@ -15,6 +15,7 @@ GEM
     builder (3.0.0)
     childprocess (0.3.1)
       ffi (~> 1.0.6)
+    coderay (1.0.5)
     cucumber (1.1.9)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.2)
@@ -30,6 +31,7 @@ GEM
     json (1.6.6)
     libxml-ruby (2.3.2)
     metaclass (0.0.1)
+    method_source (0.7.1)
     mime-types (1.18)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
@@ -44,6 +46,10 @@ GEM
       nokogiri (~> 1.4)
       rest-client (~> 1.6.0)
       rest-client (~> 1.6.0)
+    pry (0.9.8.4)
+      coderay (~> 1.0.5)
+      method_source (~> 0.7.1)
+      slop (>= 2.4.4, < 3)
     rake (0.9.2.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
@@ -59,6 +65,7 @@ GEM
       multi_json (~> 1.0)
       simplecov-html (~> 0.5.3)
     simplecov-html (0.5.3)
+    slop (2.4.4)
     term-ansicolor (1.0.7)
 
 PLATFORMS
@@ -69,6 +76,7 @@ DEPENDENCIES
   cucumber
   git-pivotal-tracker!
   mocha
+  pry
   rake
   rspec
   simplecov

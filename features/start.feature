@@ -15,7 +15,7 @@ Feature: git start
   
   Scenario Outline: Executing with no settings
     When I run `<command>`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Pivotal Tracker API Token and Project ID are required
       """
@@ -31,7 +31,7 @@ Feature: git start
     Given I have an unestimated Pivotal Tracker feature
     And I have configured the Git repos for Pivotal
     When I run `git-start feature -D`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Stories in the started state must be estimated.
       """

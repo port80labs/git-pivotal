@@ -25,7 +25,7 @@ Feature: git accept
 
   Scenario: Executing with no settings
     When I run `git-accept`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Pivotal Tracker API Token and Project ID are required
       """
@@ -33,7 +33,7 @@ Feature: git accept
 
   Scenario: Executing with inline settings
     When I run `git-accept -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Marking Story CURRENT_CARD as accepted...
       Pushing CURRENT_CARD-feature to origin
@@ -67,7 +67,7 @@ Feature: git accept
   Scenario: Executing from a misnamed branch
     Given I am on the "missing-an-id" branch
     When I run `git-accept -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Branch name must contain a Pivotal Tracker story id
       """
@@ -100,7 +100,7 @@ Feature: git accept
     And the card is a <card_type>
     And the <card_type> is <card_state>
     When I run `git-accept -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Marking Story CURRENT_CARD as accepted...
       Pushing CURRENT_CARD-feature to origin
@@ -126,7 +126,7 @@ Feature: git accept
     And the card is a <card_type>
     And the <card_type> is <card_state>
     When I run `git-accept -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT`
-    Then the output should contain:
+    Then the output should contain each line:
       """
       Story is not in an acceptable state. It's currently <card_state>.
       """

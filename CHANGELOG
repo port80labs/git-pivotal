@@ -1,3 +1,6 @@
+v 0.9.2
+- verbose is now the default, you can turn it off in your git configuration (pivotal.verbose) or via the --no-verbose command line option
+
 v 0.9.1
 - updating git-accept to work with cards that already accepted in Pivotal
 

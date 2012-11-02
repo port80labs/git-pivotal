@@ -19,58 +19,66 @@ module Commands
       response = super
       return response if response > 0
 
-      msg = "Retrieving latest #{plural_type} from Pivotal Tracker"
-      if options[:only_mine]
-        msg += " for #{options[:full_name]}"
-      end
-      put "#{msg}..."
+      if story
+        put "Story: #{story.name}"
+        put "URL:   #{story.url}"
 
-      unless story
-        put "No #{plural_type} available!"
-        return 0
-      end
+        put "Updating #{type} status in Pivotal Tracker..."
+        story.update(:owned_by => options[:full_name], :current_state => :started)
 
-      put "Story: #{story.name}"
-      put "URL:   #{story.url}"
-
-      put "Updating #{type} status in Pivotal Tracker..."
-      story.update(:owned_by => options[:full_name], :current_state => :started)
-
-      if story.errors.empty?
-        suffix_or_prefix = ""
-        unless options[:quiet] || options[:defaults]
-          put "Enter branch name (will be #{options[:append_name] ? 'appended' : 'prepended'} by #{story.id}) [#{suffix_or_prefix}]: ", false
-          suffix_or_prefix = input.gets.chomp
-        end
-        suffix_or_prefix = branch_suffix if suffix_or_prefix == ""
-
-        if options[:append_name]
-          branch = "#{suffix_or_prefix}-#{story.id}"
+        if story.errors.empty?
+          branch_name = get_branch_name
+          create_branch(branch_name)
         else
-          branch = "#{story.id}-#{suffix_or_prefix}"
+          put "Unable to mark #{type} as started"
+          put "\t" + story.errors.to_a.join("\n\t")
+          return 1
         end
-        if get("git branch").match(branch).nil?
-          put "Switched to a new branch '#{branch}'"
-          sys "git checkout -b #{branch}"
-        end
-
-        return 0
       else
-        put "Unable to mark #{type} as started"
-        put "\t" + story.errors.to_a.join("\n\t")
-
-        return 1
+        put "No #{plural_type} available!"
       end
+
+      return 0
     end
 
-  protected
+    protected
 
     def story
-      return @story if @story
+      if @story.nil?
+        msg = "Retrieving latest #{plural_type} from Pivotal Tracker"
+        msg += " for #{options[:full_name]}" if options[:only_mine]
+        put "#{msg}..."
 
-      conditions = { :story_type => type, :current_state => "unstarted", :limit => 1, :offset => 0 }
-      conditions[:owned_by] = options[:full_name] if options[:only_mine]
-      @story = project.stories.all(conditions).first
+        conditions = { :story_type => type, :current_state => "unstarted", :limit => 1, :offset => 0 }
+        conditions[:owned_by] = options[:full_name] if options[:only_mine]
+        @story = project.stories.all(conditions).first
+      end
+      @story
     end
+
+    def get_branch_name
+      branch_name = ""
+      suggested_branch_name = "#{story.id}-#{story.name.downcase.gsub(/\s+/, "-")}"
+
+      unless options[:quiet] || options[:defaults]
+        put "Enter branch name [#{suggested_branch_name}]: ", false
+        branch_name = input.gets.chomp.strip
+      end
+
+      branch_name == "" ? suggested_branch_name : branch_name
+    end
+
+    def create_branch(branch)
+      if get("git branch").match(branch).nil?
+        put "Creating remote branch '#{branch}'"
+        sys "git push origin origin:refs/heads/#{branch}"
+        sys "git fetch origin"
+
+        put "Switched to a new branch '#{branch}'"
+        sys "git branch #{branch} origin/#{branch}"
+        sys "git checkout #{branch}"
+      end
+    end
+
   end
 end

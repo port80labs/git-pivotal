@@ -16,8 +16,7 @@ module Commands
     class << self
       def for(*args)
         identifier = args.shift
-        construct_instance_for(identifier, args) || 
-          raise(ArgumentError, "Unknown card identifier given: #{identifier}")
+        construct_instance_for(identifier, args) || display_usage_instructions_and_quit(identifier)
       end
       
       private
@@ -28,6 +27,11 @@ module Commands
           instance.story_id = identifier if instance.respond_to?(:story_id=)
           instance
         end
+      end
+
+      def display_usage_instructions_and_quit(identifier)
+        puts "ERROR: Unknown card identifier given: '#{identifier}'.  Valid options are 'bug', 'chore', 'feature', or the card number."
+        exit 1
       end
     end
   end

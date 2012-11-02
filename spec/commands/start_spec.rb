@@ -19,11 +19,10 @@ describe Commands::Start do
       Commands::Start.for("123456").should be_instance_of(Commands::Card)
     end
 
-    
     it "raises when the command is unknown card type" do
-      expect { Commands::Start.for("unknown") }.should raise_error(ArgumentError, "Unknown card identifier given: unknown")
+      Commands::Start.expects(:display_usage_instructions_and_quit)
+      Commands::Start.for("unknown")
     end
-    
   end
   
 end

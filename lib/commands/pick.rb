@@ -21,18 +21,20 @@ module Commands
 
       if story
         put "Story: #{story.name}"
-        put "URL:   #{story.url}"
+        put "URL:   #{story.url}\n"
 
-        put "Updating #{type} status in Pivotal Tracker..."
-        story.update(:owned_by => options[:full_name], :current_state => :started)
+        if confirm_should_start_story?
+          put "Updating #{type} status in Pivotal Tracker..."
+          story.update(:owned_by => options[:full_name], :current_state => :started)
 
-        if story.errors.empty?
-          branch_name = get_branch_name
-          create_branch(branch_name)
-        else
-          put "Unable to mark #{type} as started"
-          put "\t" + story.errors.to_a.join("\n\t")
-          return 1
+          if story.errors.empty?
+            branch_name = get_branch_name
+            create_branch(branch_name)
+          else
+            put "Unable to mark #{type} as started"
+            put "\t" + story.errors.to_a.join("\n\t")
+            return 1
+          end
         end
       else
         put "No #{plural_type} available!"
@@ -42,6 +44,12 @@ module Commands
     end
 
     protected
+
+    def confirm_should_start_story?
+      put "Start #{type} #{story.id} - #{story.name}? (y/n): ", false
+      start_story = input.getc.strip.downcase
+      start_story == '' || start_story == 'y'
+    end
 
     def story
       if @story.nil?

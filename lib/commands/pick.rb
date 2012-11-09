@@ -46,7 +46,7 @@ module Commands
     protected
 
     def confirm_should_start_story?
-      put "Start #{type} #{story.id} - #{story.name}? (y/n): ", false
+      put "Start #{type} #{story.id} - #{story.name}? (Y/n): ", false
       start_story = input.getc.strip.downcase
       start_story == '' || start_story == 'y'
     end

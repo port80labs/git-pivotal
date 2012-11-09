@@ -83,27 +83,6 @@ describe Commands::Base do
     @pick.options[:verbose].should be_true
   end
 
-  it "should set the integration branch with the -b option" do
-    @pick = Commands::Base.new("-b", "integration").with(@input, @output)
-    @pick.send(:integration_branch).should == "integration"
-  end
-
-  it "should set the integration branch from git config" do
-    Commands::Base.any_instance.stubs(:get).with("git config --get pivotal.integration-branch").returns("chickens")
-    @pick = Commands::Base.new
-    @pick.send(:integration_branch).should == "chickens"
-  end
-
-  it "should set the integration branch with the --integration-branch= option" do
-    @pick = Commands::Base.new("--integration-branch=integration").with(@input, @output)
-    @pick.send(:integration_branch).should == "integration"
-  end
-
-  it "should default the integration branch to master if none is specified" do
-    @pick = Commands::Base.new
-    @pick.send(:integration_branch).should == "master"
-  end
-
   it "should print a message if the API token is missing" do
     @output.expects(:print).with("Pivotal Tracker API Token and Project ID are required\n")
 
@@ -118,27 +97,6 @@ describe Commands::Base do
     @pick.run!    
   end
   
-  it "should set the append name flag with the -a option" do
-    @pick = Commands::Base.new("-a").with(@input, @output)
-    @pick.options[:append_name].should be_true
-  end
-
-  it "should set the append name flag from git config" do
-    Commands::Base.any_instance.stubs(:get).with("git config --get pivotal.append-name").returns("true")
-    @pick = Commands::Base.new
-    @pick.options[:append_name].should be_true
-  end
-
-  it "should set the append name flag with the --append-name" do
-    @pick = Commands::Base.new("--append-name").with(@input, @output)
-    @pick.options[:append_name].should be_true
-  end
-
-  it "should default the append name flag if none is specified" do
-    @pick = Commands::Base.new
-    @pick.options[:append_name].should be_false
-  end
-
   it "should set use_ssl to true with --use-ssl" do
     @pick = Commands::Base.new("--use-ssl").with(@input, @output)
     @pick.options[:use_ssl].should be_true

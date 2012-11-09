@@ -72,14 +72,6 @@ module Commands
       @project ||= PivotalTracker::Project.find(options[:project_id])
     end
     
-    def acceptance_branch
-      options[:acceptance_branch] || "acceptance"
-    end
-
-    def integration_branch
-      options[:integration_branch] || "master"
-    end
-    
     def full_name
       options[:full_name]
     end
@@ -95,10 +87,6 @@ module Commands
       name               = get("git config --get pivotal.full-name").strip
       id                 = get("git config --get pivotal.project-id").strip
       remote             = get("git config --get pivotal.remote").strip
-      acceptance_branch  = get("git config --get pivotal.acceptance-branch").strip
-      integration_branch = get("git config --get pivotal.integration-branch").strip
-      only_mine          = get("git config --get pivotal.only-mine").strip
-      append_name        = get("git config --get pivotal.append-name").strip
       use_ssl            = get("git config --get pivotal.use-ssl").strip
       verbose            = get("git config --get pivotal.verbose").strip
 
@@ -106,12 +94,7 @@ module Commands
       options[:project_id]         = id                 unless id == ""
       options[:full_name]          = name               unless name == ""
       options[:remote]             = remote             unless remote == ""
-      options[:acceptance_branch]  = acceptance_branch  unless acceptance_branch == ""
-      options[:integration_branch] = integration_branch unless integration_branch == ""
-      options[:only_mine]          = (only_mine != "")  unless name == ""
-      options[:append_name]        = (append_name != "")
       options[:use_ssl] = (/^true$/i.match(use_ssl))
-      
       options[:verbose] = verbose == "" ? true : (/^true$/i.match(verbose))
     end
 
@@ -121,10 +104,7 @@ module Commands
         opts.on("-k", "--api-key=", "Pivotal Tracker API key") { |k| options[:api_token] = k }
         opts.on("-p", "--project-id=", "Pivotal Tracker project id") { |p| options[:project_id] = p }
         opts.on("-n", "--full-name=", "Pivotal Tracker full name") { |n| options[:full_name] = n }
-        opts.on("-b", "--integration-branch=", "The branch to merge finished stories back down onto") { |b| options[:integration_branch] = b }
-        opts.on("-m", "--only-mine", "Only select Pivotal Tracker stories assigned to you") { |m| options[:only_mine] = m }
         opts.on("-S", "--use-ssl", "Use SSL for connection to Pivotal Tracker (for private repos(?))") { |s| options[:use_ssl] = s }
-        opts.on("-a", "--append-name", "whether to append the story id to branch name instead of prepend") { |a| options[:append_name] = a }
         opts.on("-D", "--defaults", "Accept default options. No-interaction mode") { |d| options[:defaults] = d }
         opts.on("-q", "--quiet", "Quiet, no-interaction mode") { |q| options[:quiet] = q }
         opts.on("-v", "--[no-]verbose", "Run verbosely") { |v| options[:verbose] = v }

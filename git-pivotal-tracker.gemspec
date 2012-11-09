@@ -5,9 +5,9 @@ Gem::Specification.new do |s|
   s.name          = "git-pivotal-tracker"
   s.version       = IO.read("VERSION")
   s.platform      = Gem::Platform::RUBY
-  s.authors       = ["Zach Dennis", "Jeff Tucker", "Sam Stokes"]
-  s.email         = "zach.dennis@gmail.com"
-  s.homepage      = "https://github.com/zdennis/git-pivotal"  
+  s.authors       = ["Zach Dennis", "Jeff Tucker", "Sam Stokes", "John Wood"]
+  s.email         = "john@johnpwood.net"
+  s.homepage      = "https://github.com/centro/git-pivotal"
   s.summary       = "A collection of git utilities to ease integration with Pivotal Tracker."
   s.description   = "A collection of git utilities to ease integration with Pivotal Tracker."
   
@@ -17,6 +17,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_runtime_dependency(%q<pivotal-tracker>, [">= 0"])
+
   s.add_development_dependency(%q<rake>, [">= 0"])
   s.add_development_dependency(%q<mocha>, [">= 0"])
   s.add_development_dependency(%q<simplecov>, [">= 0"])

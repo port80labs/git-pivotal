@@ -32,6 +32,7 @@ module GitPivotal
           :name          => "a #{type}",
           :story_type    => type.to_s,
           :current_state => "unstarted",
+          :requested_by  => PIVOTAL_USER,
           :estimate      => (type.to_s == "feature" ? 1 : nil)
         }.merge(options)
         

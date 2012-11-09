@@ -3,9 +3,9 @@ STORY_STATE = /unscheduled|unstarted|started|finished|delivered|accepted|rejecte
 
 Transform /PIVOTAL|CURRENT/ do |placeholder|
   placeholder.
-    gsub("PIVOTAL_API_KEY", "80f3c308cfdfbaa8f5a21aa524081690").
-    gsub("PIVOTAL_TEST_PROJECT", "516377").
-    gsub("PIVOTAL_USER", "Robotic Zach").
+    gsub("PIVOTAL_API_KEY", ENV['PIVOTAL_API_KEY']).
+    gsub("PIVOTAL_TEST_PROJECT", ENV['PIVOTAL_TEST_PROJECT']).
+    gsub("PIVOTAL_USER", ENV['PIVOTAL_USER']).
     gsub("CURRENT_CARD", current_card.id.to_s)
 end
 

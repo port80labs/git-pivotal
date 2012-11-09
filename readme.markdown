@@ -61,9 +61,20 @@ Replace card\_type in the above command to start the next available card in your
 ### git finish
 When on a feature branch, this command will close the associated story in Pivotal Tracker and remove the feature branch.
 
-    3 git-pivotal:1234567-testing % git finish
-    Marking Story 1234567 as finished...
-    Removing 1234567-testing branch
+    3 git-pivotal:38895179-test-the-tracker-gem % git finish
+    git symbolic-ref HEAD
+    Finish story 38895179 and delete local and remote branches? (y/N): y
+    Switching to master
+    git co master
+    Switched to branch 'master'
+    Destroying local branch
+    git branch -d 38895179-test-the-tracker-gem
+    Deleted branch 38895179-test-the-tracker-gem (was 99e52a3).
+    Destroying remote branch
+    git push origin :38895179-test-the-tracker-gem
+    To git@github.com:centro/git-pivotal.git
+     - [deleted]         38895179-test-the-tracker-gem
+    Marking Story 38895179 as finished...
     4 git-pivotal:master %
 
 ### git info

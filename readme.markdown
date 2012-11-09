@@ -11,7 +11,6 @@ Things like:
  * git comments
  * git label 
  * git unstart
- * git accept
 * Add verbosity and dry-run support to commands to communicate to the users what commands will be run
 * Add before/after hooks extension points so people do not have to modify the project in order to do something custom. 
   * e.g. if you want to build a changelog as story's are finished, this should be able to be done by hooking into the "git finish" command and not require altering the code-base

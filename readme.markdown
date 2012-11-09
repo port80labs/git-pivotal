@@ -1,5 +1,3 @@
-[![Build Status](https://secure.travis-ci.org/zdennis/git-pivotal.png)](http://travis-ci.org/#!/zdennis/git-pivotal)
-
 This is based on https://github.com/trydionel/git-pivotal but has an extended vision and set of goals to achieve.
 
 Things like:
@@ -33,15 +31,27 @@ More README to come. See ISSUES for things I want to tackle in this project.
 Replace card\_type in the above command to start the next available card in your Pivotal project, e.g.:
 
     1 git-pivotal:master % git start feature
-    Collecting latest stories from Pivotal Tracker...
-    Story: Test git pivotal
-    URL:   http://www.pivotaltracker.com/story/show/1234567
-    Updating story status in Pivotal Tracker...
-    Enter branch name (will be prepended by 1234567) [feature]: testing
-    Creating 1234567-testing branch...
-    2 git-pivotal:1234567-testing %
+    Retrieving latest features from Pivotal Tracker for John Wood...
+    Story: Test the tracker gem
+    URL:   http://www.pivotaltracker.com/story/show/38895179
 
-    
+    Start feature 38895179 - Test the tracker gem? (Y/n): Y
+    Updating feature status in Pivotal Tracker...
+    Enter branch name [38895179-test-the-tracker-gem]: 
+    git branch
+    Creating remote branch '38895179-test-the-tracker-gem'
+    git push origin origin:refs/heads/38895179-test-the-tracker-gem
+    Total 0 (delta 0), reused 0 (delta 0)
+    To git@github.com:centro/git-pivotal.git
+     * [new branch]      origin/HEAD -> 38895179-test-the-tracker-gem
+    git fetch origin
+    Switched to a new branch '38895179-test-the-tracker-gem'
+    git branch 38895179-test-the-tracker-gem origin/38895179-test-the-tracker-gem
+    Branch 38895179-test-the-tracker-gem set up to track remote branch 38895179-test-the-tracker-gem from origin.
+    git checkout 38895179-test-the-tracker-gem
+    Switched to branch '38895179-test-the-tracker-gem'
+    2 git-pivotal:38895179-test-the-tracker-gem %
+
 ### git finish
 When on a feature branch, this command will close the associated story in Pivotal Tracker, merge the branch into your integration branch (`master` by default) and remove the feature branch.
 
@@ -79,17 +89,9 @@ If you prefer to merge back to a branch other than master when you've finished a
 
     git config --global pivotal.integration-branch develop
 
-If you only want to pick up bugs/features/chores that are already assigned to you, set:
-
-    git config --global pivotal.only-mine true
-
 The project id is best placed within your project's git config:
 
     git config -f .git/config pivotal.project-id 88888
-
-If you would rather have the story id appended to the branch name (feature-123456) instead of prepending (123456-feature), you can configue that:
-
-    git config -f .git/config pivotal.append-name true
 
 If you're not interested in storing these options in git, you can pass them into git pivotal as command line arguments.  See the usage guides for more details.
 

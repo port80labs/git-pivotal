@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    git-pivotal-tracker (0.9.1)
+    git-pivotal-tracker-centro (0.9.1)
       pivotal-tracker
 
 GEM
@@ -29,15 +29,15 @@ GEM
     happymapper (0.4.0)
       libxml-ruby (~> 2.0)
     json (1.6.6)
-    libxml-ruby (2.3.2)
+    libxml-ruby (2.3.3)
     metaclass (0.0.1)
     method_source (0.7.1)
-    mime-types (1.18)
+    mime-types (1.19)
     mocha (0.10.5)
       metaclass (~> 0.0.1)
     multi_json (1.2.0)
-    nokogiri (1.5.2)
-    pivotal-tracker (0.5.1)
+    nokogiri (1.5.5)
+    pivotal-tracker (0.5.8)
       builder
       builder
       happymapper (>= 0.3.2)
@@ -74,7 +74,7 @@ PLATFORMS
 DEPENDENCIES
   aruba
   cucumber
-  git-pivotal-tracker!
+  git-pivotal-tracker-centro!
   mocha
   pry
   rake

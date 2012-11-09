@@ -2,7 +2,7 @@
 $:.push File.expand_path("../lib", __FILE__)  
   
 Gem::Specification.new do |s|  
-  s.name          = "git-pivotal-tracker"
+  s.name          = "git-pivotal-tracker-centro"
   s.version       = IO.read("VERSION")
   s.platform      = Gem::Platform::RUBY
   s.authors       = ["Zach Dennis", "Jeff Tucker", "Sam Stokes", "John Wood"]

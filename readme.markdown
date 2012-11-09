@@ -23,6 +23,12 @@ The main vision for this is simple: Encourage and support good practices and be 
 
 More README to come. See ISSUES for things I want to tackle in this project.
 
+## The workflow
+
+1. Assign the card to yourself (or have someone assign it to you)
+2. From _master_, **git start <card\_type>**, where card\_type is either 'bug', 'chore', 'feature', or the card number.  A new branch will be created, and you will be automatically  switched to it.  The story will also be marked as started.
+3. WRITE ALL THE CODE!, create pull request, merge into master.
+4. **git finish**. This will destroy the local and remote branches, and mark the story as finished.
 
 ### git start - Starting the next available Feature/Bug/Chore
 
@@ -53,11 +59,10 @@ Replace card\_type in the above command to start the next available card in your
     2 git-pivotal:38895179-test-the-tracker-gem %
 
 ### git finish
-When on a feature branch, this command will close the associated story in Pivotal Tracker, merge the branch into your integration branch (`master` by default) and remove the feature branch.
+When on a feature branch, this command will close the associated story in Pivotal Tracker and remove the feature branch.
 
     3 git-pivotal:1234567-testing % git finish
     Marking Story 1234567 as finished...
-    Merging 1234567-testing into master
     Removing 1234567-testing branch
     4 git-pivotal:master %
 
@@ -84,10 +89,6 @@ Once installed, git pivotal needs three bits of info: your Pivotal Tracker API T
 
     git config --global pivotal.api-token 9a9a9a9a9a9a9a9a9a9a
     git config --global pivotal.full-name "Jeff Tucker"
-
-If you prefer to merge back to a branch other than master when you've finished a story, you can configure that:
-
-    git config --global pivotal.integration-branch develop
 
 The project id is best placed within your project's git config:
 

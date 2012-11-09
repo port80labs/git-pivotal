@@ -3,9 +3,9 @@ This is based on https://github.com/trydionel/git-pivotal but has an extended vi
 Things like:
 
 * Make the existing API more intuitive:
- * git-bug, git-chore, git-feature should not be separate CLI commands. The common action is start, so goal here is to support "git-start _card\_type_"
-* Users should be able to interact with specific cards when possible.
- * e.g. "git start 123456" should start card 123456. 
+ * git-bug, git-chore, git-feature should not be separate CLI commands. The common action is start, so goal here is to support "git-start _story\_type_"
+* Users should be able to interact with specific stories when possible.
+ * e.g. "git start 123456" should start story 123456. 
  * being generic (interacting with next available or specific should apply to all applicable commands)
 * Add more commands to interact with Pivotal:
  * git block
@@ -16,7 +16,7 @@ Things like:
  * git accept
 * Add verbosity and dry-run support to commands to communicate to the users what commands will be run
 * Add before/after hooks extension points so people do not have to modify the project in order to do something custom. 
-  * e.g. if you want to build a changelog as card's are finished, this should be able to be done by hooking into the "git finish" command and not require altering the code-base
+  * e.g. if you want to build a changelog as story's are finished, this should be able to be done by hooking into the "git finish" command and not require altering the code-base
 * better support for handling merge conflicts (_this may be nothing more than communicating better to the user if a merge conflict happens when issuing a command_)
 
 The main vision for this is simple: Encourage and support good practices and be flexible. 
@@ -25,16 +25,16 @@ More README to come. See ISSUES for things I want to tackle in this project.
 
 ## The workflow
 
-1. Assign the card to yourself (or have someone assign it to you)
-2. From _master_, `git start <card_type>`, where card\_type is either 'bug', 'chore', 'feature', or the card number.  A new branch will be created, and you will be automatically  switched to it.  The story will also be marked as started.
+1. Assign the story to yourself (or have someone assign it to you)
+2. From _master_, `git start <story_type>`, where story\_type is either 'bug', 'chore', 'feature', or the story number.  A new branch will be created, and you will be automatically  switched to it.  The story will also be marked as started.
 3. WRITE ALL THE CODE!, create pull request, merge into master.
 4. `git finish`. This will destroy the local and remote branches, and mark the story as finished.
 
 ### git start - Starting the next available Feature/Bug/Chore
 
-    git start <card_type>
+    git start <story_type>
     
-Replace card\_type in the above command to start the next available card in your Pivotal project, e.g.:
+Replace story\_type in the above command to start the next available story in your Pivotal project, e.g.:
 
     1 git-pivotal:master % git start feature
     Retrieving latest features from Pivotal Tracker for John Wood...

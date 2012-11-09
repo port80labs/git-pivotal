@@ -44,8 +44,8 @@ describe Commands::Finish do
     PivotalTracker::Project.stubs(:find).returns(mock_projects)
 
     @finish = Commands::Finish.new(nil, nil, "-p", mock_project_id)
-    @finish.stubs(:sys)
     @finish.stubs(:put)
+    @finish.stubs(:get_char).returns('y')
   end
 
   context "where the branch name does not contain a valid story id" do
@@ -67,21 +67,44 @@ describe Commands::Finish do
   end
 
   context "where the branch name does contain a valid story id" do
-
     before(:each) do
       # stub out git status request to identify the branch
       Commands::Finish.any_instance.stubs(:get).with { |v| v =~ /git status/ }.returns("# On branch #{branch_name}")
       Commands::Finish.any_instance.stubs(:get).with { |v| v == "git symbolic-ref HEAD" }.returns(branch_name)
     end
 
+    it "should exit if the user does not wish to proceed" do
+      @finish.stubs(:get_char).returns('n')
+      @finish.expects(:sys).never
+      @finish.run!
+    end
+
+    it "should checkout the master branch, delete the local branch, and delete the remote branch" do
+      @finish.expects(:sys).with() { |value| value == "git checkout master" }
+      @finish.expects(:sys).with("git branch -d #{branch_name}").returns(true)
+      @finish.expects(:sys).with("git push origin :#{branch_name}")
+      mock_story.stubs(:story_type).returns("finished")
+      mock_story.stubs(:update)
+      @finish.run!
+    end
+
     it "should attempt to update the story status to the stories finished_state" do
+      @finish.stubs(:sys).returns(true)
       mock_story.stubs(:story_type).returns("finished")
       mock_story.expects(:update).with(:current_state => "finished")
       @finish.run!
     end
 
+    it "should not delete the remote branch and update the story if the local branch could not be deleted" do
+      @finish.expects(:sys).with() { |value| value == "git checkout master" }
+      @finish.expects(:sys).with("git branch -d #{branch_name}").returns(false)
+      @finish.expects(:sys).with("git push origin :#{branch_name}").never
+      @finish.run!
+    end
+
     context "and the story is successfully marked as finished in PT" do
       before(:each) do
+        @finish.stubs(:sys).returns(true)
         mock_story.stubs(:story_type).returns("finished")
         mock_story.stubs(:update).with(:current_state => "finished").returns(true)
       end
@@ -89,25 +112,11 @@ describe Commands::Finish do
       it "should succeed with an exist status of zero" do
         @finish.run!.should == 0
       end
-
-      it "should checkout the developer's acceptance branch" do
-        @finish.expects(:sys).with("git checkout acceptance")
-        @finish.run!
-      end
-
-      it "should pull down the latest changes into the developer's acceptance branch" do
-        @finish.expects(:sys).with("git pull")
-        @finish.run!
-      end
-
-      it "should merge in the story branch" do
-        @finish.expects(:sys).with("git merge --no-ff #{branch_name}")
-        @finish.run!
-      end
     end
 
     context "and the story fails to be marked as finished in PT" do
       before(:each) do
+        @finish.stubs(:sys).returns(true)
         mock_story.stubs(:story_type).returns("finished")
         mock_story.stubs(:update).with(:current_state => "finished").returns(false)
       end

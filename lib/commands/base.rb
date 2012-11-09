@@ -42,6 +42,10 @@ module Commands
       `#{cmd}`
     end
 
+    def get_char
+      input.getc
+    end
+
     def run!
       unless options[:api_token] && options[:project_id]
         put "Pivotal Tracker API Token and Project ID are required"

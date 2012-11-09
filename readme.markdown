@@ -85,11 +85,9 @@ When on a feature/bug/chore branch, this command will display the story informat
 
 ## Installation
 
-_This section is out of date and applies to the original project. It needs to be updated._
-
 To install git-pivotal, simply run
 
-    [sudo] gem install git-pivotal
+    [sudo] gem install git-pivotal-tracker-centro
 
 ## Configuration
 

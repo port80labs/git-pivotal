@@ -2,9 +2,9 @@ require 'rubygems'
 require 'rake'
 
 # Set up a test Pivotal project for the Cucumber tests to use
-ENV['PIVOTAL_API_KEY'] = "" # your API key
-ENV['PIVOTAL_TEST_PROJECT'] = "" # your test project ID (123456)
-ENV['PIVOTAL_USER'] = "" # Your user name (Joe Smith)
+ENV['PIVOTAL_API_KEY'] = "81f09c932c8bfd2b028ec5e52ec7cf47" # your API key
+ENV['PIVOTAL_TEST_PROJECT'] = "681077" # your test project ID (123456)
+ENV['PIVOTAL_USER'] = "John Wood" # Your user name (Joe Smith)
 
 $LOAD_PATH.unshift('lib')
 

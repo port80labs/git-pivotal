@@ -37,3 +37,13 @@ task :features do
   end
 end
 
+task :install do
+  puts "Uninstalling..."
+  system "gem uninstall -x git-pivotal-tracker-centro"
+
+  puts "Building..."
+  system "gem build  git-pivotal-tracker-centro.gemspec"
+
+  puts "Installing..."
+  system "gem install git-pivotal-tracker-centro-0.9.1.gem"
+end

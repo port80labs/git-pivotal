@@ -50,6 +50,16 @@ describe Commands::Base do
     @pick.options[:quiet].should be_true
   end
   
+  it "should set the force flag with the -f option" do
+    @pick = Commands::Base.new("-f").with(@input, @output)
+    @pick.options[:force].should be_true
+  end
+
+  it "should set the force flag with the --force option" do
+    @pick = Commands::Base.new("--force").with(@input, @output)
+    @pick.options[:force].should be_true
+  end
+
   it "should set the verbose flag with the -v option" do
     @pick = Commands::Base.new("-v").with(@input, @output)
     @pick.options[:verbose].should be_true

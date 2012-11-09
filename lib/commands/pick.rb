@@ -46,6 +46,8 @@ module Commands
     protected
 
     def confirm_should_start_story?
+      return true if options[:force]
+
       put "Start #{type} #{story.id} - #{story.name}? (Y/n): ", false
       start_story = get_char.strip.downcase
       start_story == '' || start_story == 'y'

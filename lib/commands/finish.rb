@@ -41,6 +41,8 @@ module Commands
   protected
 
     def confirm_should_finish_story?
+      return true if options[:force]
+
       put "Finish story #{story_id} and delete local and remote branches? (y/N): ", false
       finish_story = get_char.strip.downcase
       finish_story == 'y'

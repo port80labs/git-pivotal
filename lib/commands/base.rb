@@ -108,6 +108,7 @@ module Commands
         opts.on("-D", "--defaults", "Accept default options. No-interaction mode") { |d| options[:defaults] = d }
         opts.on("-q", "--quiet", "Quiet, no-interaction mode") { |q| options[:quiet] = q }
         opts.on("-v", "--[no-]verbose", "Run verbosely") { |v| options[:verbose] = v }
+        opts.on("-f", "--force", "Do not prompt") { |f| options[:force] = f }
         
         on_parse(opts)
         

@@ -26,9 +26,9 @@ More README to come. See ISSUES for things I want to tackle in this project.
 ## The workflow
 
 1. Assign the card to yourself (or have someone assign it to you)
-2. From _master_, **git start <card\_type>**, where card\_type is either 'bug', 'chore', 'feature', or the card number.  A new branch will be created, and you will be automatically  switched to it.  The story will also be marked as started.
+2. From _master_, `git start <card_type>`, where card\_type is either 'bug', 'chore', 'feature', or the card number.  A new branch will be created, and you will be automatically  switched to it.  The story will also be marked as started.
 3. WRITE ALL THE CODE!, create pull request, merge into master.
-4. **git finish**. This will destroy the local and remote branches, and mark the story as finished.
+4. `git finish`. This will destroy the local and remote branches, and mark the story as finished.
 
 ### git start - Starting the next available Feature/Bug/Chore
 

@@ -8,8 +8,6 @@ Things like:
  * e.g. "git start 123456" should start story 123456. 
  * being generic (interacting with next available or specific should apply to all applicable commands)
 * Add more commands to interact with Pivotal:
- * git block
- * git unblock
  * git comments
  * git label 
  * git unstart

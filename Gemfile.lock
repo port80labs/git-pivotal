@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    git-pivotal-tracker-centro (1.0.0.rc1)
+    git-pivotal-tracker-centro (1.0.0.rc2)
       pivotal-tracker
 
 GEM

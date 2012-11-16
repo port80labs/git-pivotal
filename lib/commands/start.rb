@@ -3,6 +3,7 @@ require 'commands/bug'
 require 'commands/card'
 require 'commands/chore'
 require 'commands/feature'
+require 'commands/story'
 
 module Commands
   class Start
@@ -10,6 +11,7 @@ module Commands
       "bug"     => Commands::Bug,
       "chore"   => Commands::Chore,
       "feature" => Commands::Feature,
+      "story"   => Commands::Story,
       /^\d+$/   => Commands::Card
     })
     
@@ -30,7 +32,7 @@ module Commands
       end
 
       def display_usage_instructions_and_quit(identifier)
-        puts "ERROR: Unknown card identifier given: '#{identifier}'.  Valid options are 'bug', 'chore', 'feature', or the card number."
+        puts "ERROR: Unknown card identifier given: '#{identifier}'.  Valid options are 'story', 'bug', 'chore', 'feature', or the card number."
         exit 1
       end
     end

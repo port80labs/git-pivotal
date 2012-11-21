@@ -1,2 +1,8 @@
+v 1.0.0.rc3
+- Fixed ruby 1.8 compatability issue
+
+v 1.0.0.rc2
+- Add the ability to start a story of any type
+
 v 1.0.0.rc1
 - Initial release for Centro's work flow

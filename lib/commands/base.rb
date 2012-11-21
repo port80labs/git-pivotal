@@ -43,7 +43,7 @@ module Commands
     end
 
     def get_char
-      input.getc
+      input.gets
     end
 
     def run!

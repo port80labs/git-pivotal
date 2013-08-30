@@ -80,6 +80,7 @@ module Commands
     end
 
     def create_branch(branch)
+      branch = Regexp.quote(branch)
       if get("git branch").match(branch).nil?
         put "Creating remote branch '#{branch}'"
         sys "git push origin origin:refs/heads/#{branch}"

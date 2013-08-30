@@ -12,7 +12,7 @@ module Commands
       end
 
       if confirm_should_finish_story?
-        topic_branch = current_branch
+        topic_branch = Regexp.quote(current_branch)
 
         put "Switching to master"
         sys "git checkout master"

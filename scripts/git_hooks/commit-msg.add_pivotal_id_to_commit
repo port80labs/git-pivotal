@@ -17,7 +17,7 @@
 
 COMMIT_MSG_FILE=$1
 CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
-TRACKER_ID=`echo $CURRENT_BRANCH | egrep -o '^\d+'`
+TRACKER_ID=`echo $CURRENT_BRANCH | ruby -ne 'puts $1 if /^(\d+)/'`
 
 # Make sure the branch name starts with what looks like a tracker ID
 if [ "$TRACKER_ID" != "" ]; then

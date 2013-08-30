@@ -12,7 +12,8 @@
 # Pivotal to list all commits associated with a story when the
 # story is viewed.
 #
-# To enble this script, copy it into your repo's .git/hooks directory.
+# To enble this script, copy it to .git/hooks/prepare-commit-msg
+# in your repo's directory.
 #
 
 COMMIT_MSG_FILE=$1

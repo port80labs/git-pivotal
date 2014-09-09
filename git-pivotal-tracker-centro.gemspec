@@ -2,12 +2,12 @@
 $:.push File.expand_path("../lib", __FILE__)  
   
 Gem::Specification.new do |s|  
-  s.name          = "git-pivotal-tracker-centro"
+  s.name          = "akta-git-pivotal"
   s.version       = IO.read("VERSION")
   s.platform      = Gem::Platform::RUBY
   s.authors       = ["Zach Dennis", "Jeff Tucker", "Sam Stokes", "John Wood"]
   s.email         = "john@johnpwood.net"
-  s.homepage      = "https://github.com/centro/git-pivotal"
+  s.homepage      = "https://github.com/akta/git-pivotal"
   s.summary       = "A collection of git utilities to ease integration with Pivotal Tracker."
   s.description   = "A collection of git utilities to ease integration with Pivotal Tracker."
   

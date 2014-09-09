@@ -87,7 +87,7 @@ module Commands
         sys "git fetch origin"
 
         put "Switched to a new branch '#{branch}'"
-        sys "git branch #{branch} origin/#{branch}"
+        sys "git branch #{branch}"
         sys "git checkout #{branch}"
       end
     end

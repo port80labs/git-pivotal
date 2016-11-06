@@ -1,24 +1,41 @@
 Feature: git finish
 
+  In order to finish the card for the current topic branch you can issue the following 
+  commands:
+  
+    git finish 
+    git finish <options>
+
+  Supported options:
+    -k <api_key>    - specify the Pivotal API key to use. Overrides configuration.
+    -p <project_id> - specify the Pivotal project id to use. Overrides configuration.
+    
+  This will do the following:
+    * switch to the master branch
+    * delete the local branch
+    * delete the remote branch
+    * mark the card as finished in Pivotal
+
   Background:
     Given I have a started Pivotal Tracker feature
-    And I am on the "5799841-feature" branch
+    And I am on the "CURRENT_CARD-feature" branch
 
   Scenario: Executing with no settings
-    When I run "git-finish"
-    Then the output should contain:
+    When I run `git-finish --force`
+    Then the output should contain each line:
       """
       Pivotal Tracker API Token and Project ID are required
       """
     And the exit status should be 1
 
-  Scenario: Excuting with inline settings
-    When I run "git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815"
-    Then the output should contain:
+  Scenario: Executing with inline settings
+    When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT --force`
+    Then the output should contain each line:
       """
-      Marking Story 5799841 as finished...
-      Merging 5799841-feature into master
-      Removing 5799841-feature branch
+      Switching to master
+      Destroying local branch
+      Destroying remote branch
+      Marking Story CURRENT_CARD as finished...
       """
     And I should be on the "master" branch
 
@@ -26,63 +43,46 @@ Feature: git finish
     Given a file named ".gitconfig" with:
       """
       [pivotal]
-              api-token = 10bfe281783e2bdc2d6592c0ea21e8d5
-              full-name = Jeff Tucker
-              project-id = 52815
+        api-token = PIVOTAL_API_KEY
+        full-name = PIVOTAL_USER
+        project-id = PIVOTAL_TEST_PROJECT
       """
-    When I run "git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815"
-    Then the output should contain:
+    When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT --force`
+    Then the output should contain each line:
       """
-      Marking Story 5799841 as finished...
-      Merging 5799841-feature into master
-      Removing 5799841-feature branch
+      Switching to master
+      Destroying local branch
+      Destroying remote branch
+      Marking Story CURRENT_CARD as finished...
       """
     And I should be on the "master" branch
 
   Scenario: Executing from a misnamed branch
     Given I am on the "missing-an-id" branch
-    When I run "git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815"
-    Then the output should contain:
+    When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT --force`
+    Then the output should contain each line:
       """
       Branch name must contain a Pivotal Tracker story id
       """
     And the exit status should be 1
 
-  Scenario: Specifying an integration branch
-    Given I have a "develop" branch
-    And a file named ".gitconfig" with:
-      """
-      [pivotal]
-              api-token = 10bfe281783e2bdc2d6592c0ea21e8d5
-              full-name = Jeff Tucker
-              integration-branch = develop
-              project-id = 52815
-      """
-    When I run "git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815"
-    Then the output should contain:
-      """
-      Marking Story 5799841 as finished...
-      Merging 5799841-feature into develop
-      Removing 5799841-feature branch
-      """
-    And I should be on the "develop" branch
-
   Scenario: Closing chore stories
     Given I have a started Pivotal Tracker chore
-    And I am on the "5799841-chore" branch
+    And I am on the "CURRENT_CARD-chore" branch
     And a file named ".gitconfig" with:
       """
       [pivotal]
-              api-token = 10bfe281783e2bdc2d6592c0ea21e8d5
-              full-name = Jeff Tucker
-              project-id = 52815
+        api-token = PIVOTAL_API_KEY
+        full-name = PIVOTAL_USER
+        project-id = PIVOTAL_TEST_PROJECT
       """
-    When I run "git-finish -k 10bfe281783e2bdc2d6592c0ea21e8d5 -p 52815"
-    Then the output should contain:
+    When I run `git-finish -k PIVOTAL_API_KEY -p PIVOTAL_TEST_PROJECT --force`
+    Then the output should contain each line:
       """
-      Marking Story 5799841 as finished...
-      Merging 5799841-chore into master
-      Removing 5799841-chore branch
+      Switching to master
+      Destroying local branch
+      Destroying remote branch
+      Marking Story CURRENT_CARD as finished...
       """
     And I should be on the "master" branch
   

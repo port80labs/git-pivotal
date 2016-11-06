@@ -1,5 +1,6 @@
 $:.unshift('lib') unless $:.include?('lib')
 
 require 'aruba'
-require 'git-pivotal'
+require 'aruba/cucumber'
+require 'git-pivotal-tracker'
 require 'pivotal-tracker'

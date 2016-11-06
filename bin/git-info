@@ -4,4 +4,4 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'commands/info'
 
-exit Commands::Info.new(STDIN, STDOUT, *ARGV).run!
+exit Commands::Info.new(*ARGV).with(STDIN, STDOUT).run!

@@ -3,5 +3,5 @@ coverage
 *.gem
 *.swp
 tmp
-Gemfile.lock
 .rvmrc
+.rbenv-version

@@ -4,4 +4,4 @@ $LOAD_PATH.unshift File.join(File.dirname(__FILE__), '..', 'lib')
 
 require 'commands/finish'
 
-exit Commands::Finish.new(STDIN, STDOUT, *ARGV).run!
+exit Commands::Finish.new(*ARGV).with(STDIN, STDOUT).run!

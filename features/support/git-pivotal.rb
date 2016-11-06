@@ -1,50 +1,68 @@
 require 'fileutils'
+require 'pry'
 
-PIVOTAL_API_KEY = "10bfe281783e2bdc2d6592c0ea21e8d5"
-PIVOTAL_TEST_PROJECT = 52815
-PIVOTAL_TEST_ID = 5799841
+PIVOTAL_API_KEY = ENV['PIVOTAL_API_KEY']
+PIVOTAL_TEST_PROJECT = ENV['PIVOTAL_TEST_PROJECT']
+PIVOTAL_USER = ENV['PIVOTAL_USER']
 
 Before do
-  @aruba_timeout_seconds = 5
+  @aruba_io_wait_seconds = 1
+  @aruba_timeout_seconds = 60
   build_temp_paths
   set_env_variables
 end
 
-at_exit do
+After do
   # The features seem to have trouble repeating accurately without
   # setting the test story to an unstarted feature for the next run.
-  update_test_story("feature", :current_state => "unstarted")
+  delete_created_cards 
+end
+
+at_exit do
+  FileUtils.rm_r "tmp/aruba"
+  FileUtils.rm_r "tmp/origin.git"
 end
 
 def build_temp_paths
-  _mkdir(current_dir)
-
-  test_repo = File.expand_path(File.join(File.dirname(__FILE__), '..', 'test_repo'))
-  FileUtils.cp_r(test_repo, current_dir)
-  Dir.chdir(File.join(current_dir, 'test_repo')) do
-    FileUtils.mv('working.git', '.git')
+  dir = File.expand_path(File.dirname(__FILE__))
+  test_repo = File.expand_path(File.join(dir, '..', 'test_repo'))
+  tmp = File.expand_path(File.join(dir, '..', '..', 'tmp'))
+  
+  FileUtils.cp_r "#{test_repo}/origin.git", "#{tmp}/origin.git"
+  `git clone #{tmp}/origin.git #{current_dir}/working.git`
+  
+  Dir.chdir(current_dir + "/working.git") do
+    system "git branch -D acceptance > /dev/null 2>&1"
+    system "git branch acceptance master > /dev/null 2>&1"
   end
 end
 
 def set_env_variables
-  set_env "GIT_DIR", File.expand_path(File.join(current_dir, 'test_repo', '.git'))
-  set_env "GIT_WORK_TREE", File.expand_path(File.join(current_dir, 'test_repo'))
+  set_env "GIT_DIR", File.expand_path(File.join(current_dir, 'working.git', '.git'))
+  set_env "GIT_WORK_TREE", File.expand_path(File.join(current_dir, 'working.git'))
   set_env "HOME", File.expand_path(current_dir)
 end
 
-def update_test_story(type, options = {})
-  PivotalTracker::Client.token = PIVOTAL_API_KEY
-  project = PivotalTracker::Project.find(PIVOTAL_TEST_PROJECT)
-  story   = project.stories.find(PIVOTAL_TEST_ID)
-
-  story.update({
-    :story_type    => type.to_s,
-    :current_state => "unstarted",
-    :estimate      => (type.to_s == "feature" ? 1 : nil)
-  }.merge(options))
-  sleep(4) # let the data propagate
-end
 
 def current_branch
   `git symbolic-ref HEAD`.chomp.split('/').last
+end
+
+module RSpec
+  module Expectations
+    module DifferAsStringAcceptsArrays
+      def self.included(klass)
+        klass.class_eval do
+          alias_method :original_diff_as_string, :diff_as_string
+          define_method :diff_as_string do |data_new, data_old|
+            data_old = data_old.join if data_old.respond_to?(:join)
+            data_new = data_new.join if data_new.respond_to?(:join)
+            original_diff_as_string data_new, data_old
+          end
+        end
+      end
+    end
+      
+    Differ.send :include, DifferAsStringAcceptsArrays
+  end
 end

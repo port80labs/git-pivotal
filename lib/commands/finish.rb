@@ -17,14 +17,12 @@ module Commands
         sys "git checkout #{integration_branch}"
         sys "git merge --no-ff -m \"[##{story_id}] Merge branch '#{current_branch}' into #{integration_branch}\" #{current_branch}"
 
-        topic_branch = Regexp.quote(current_branch)
-
         put "Destroying local branch"
-        local_branch_deleted_successfully = sys "git branch -d #{topic_branch}"
+        local_branch_deleted_successfully = sys "git branch -d #{current_branch}"
 
         if local_branch_deleted_successfully
           put "Destroying remote branch"
-          sys "git push origin :#{topic_branch}"
+          sys "git push origin :#{current_branch}"
         else
           put "The local branch could not be deleted.  Please make sure your changes have been merged."
           return 1

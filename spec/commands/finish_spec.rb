@@ -79,30 +79,9 @@ describe Commands::Finish do
 
     it "should exit if the user does not wish to proceed" do
       @finish.stubs(:get_char).returns('n')
-      @finish.expects(:sys).never
-      @finish.run!
-    end
-
-    it "should checkout the master branch, delete the local branch, and delete the remote branch" do
-      @finish.expects(:sys).with() { |value| value == "git checkout master" }
-      @finish.expects(:sys).with("git branch -d #{branch_name}").returns(true)
-      @finish.expects(:sys).with("git push origin :#{branch_name}")
       mock_story.stubs(:story_type).returns("finished")
       mock_story.stubs(:update)
-      @finish.run!
-    end
-
-    it "should attempt to update the story status to the stories finished_state" do
-      @finish.stubs(:sys).returns(true)
-      mock_story.stubs(:story_type).returns("finished")
-      mock_story.expects(:update).with(:current_state => "finished")
-      @finish.run!
-    end
-
-    it "should not delete the remote branch and update the story if the local branch could not be deleted" do
-      @finish.expects(:sys).with() { |value| value == "git checkout master" }
-      @finish.expects(:sys).with("git branch -d #{branch_name}").returns(false)
-      @finish.expects(:sys).with("git push origin :#{branch_name}").never
+      @finish.expects(:sys).never
       @finish.run!
     end
 
@@ -129,6 +108,11 @@ describe Commands::Finish do
 
       it "should remove the story branch" do
         @finish.expects(:sys).with("git branch -d #{branch_name}")
+        @finish.run!
+      end
+
+      it "should remove the remote story branch" do
+        @finish.expects(:sys).with("git push origin :#{branch_name}")
         @finish.run!
       end
 

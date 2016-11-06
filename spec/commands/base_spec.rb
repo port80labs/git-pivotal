@@ -42,55 +42,55 @@ describe Commands::Base do
   
   it "should set the quiet flag with the -q option" do
     @pick = Commands::Base.new("-q").with(@input, @output)
-    @pick.options[:quiet].should be_true
+    @pick.options[:quiet].should be true
   end
   
   it "should set the quiet flag with the --quiet option" do
     @pick = Commands::Base.new("--quiet").with(@input, @output)
-    @pick.options[:quiet].should be_true
+    @pick.options[:quiet].should be true
   end
   
   it "should set the force flag with the -f option" do
     @pick = Commands::Base.new("-f").with(@input, @output)
-    @pick.options[:force].should be_true
+    @pick.options[:force].should be true
   end
 
   it "should set the force flag with the --force option" do
     @pick = Commands::Base.new("--force").with(@input, @output)
-    @pick.options[:force].should be_true
+    @pick.options[:force].should be true
   end
 
   it "should set the verbose flag with the -v option" do
     @pick = Commands::Base.new("-v").with(@input, @output)
-    @pick.options[:verbose].should be_true
+    @pick.options[:verbose].should be true
   end
   
   it "should set the verbose flag with the --verbose option" do
     @pick = Commands::Base.new("--verbose").with(@input, @output)
-    @pick.options[:verbose].should be_true
+    @pick.options[:verbose].should be true
   end
   
   it "should unset the verbose flag with the --no-verbose option" do
     @pick = Commands::Base.new("--no-verbose").with(@input, @output)
-    @pick.options[:verbose].should be_false
+    @pick.options[:verbose].should be false
   end
   
   it "should respect verbose from git config if it's set true (case insensitive)" do
     Commands::Base.any_instance.stubs(:get).with("git config --get pivotal.verbose").returns("truE")
     @pick = Commands::Base.new
-    @pick.options[:verbose].should be_true
+    @pick.options[:verbose].should be true
   end
 
   it "should respect verbose from git config if it's set true (case insensitive)" do
     Commands::Base.any_instance.stubs(:get).with("git config --get pivotal.verbose").returns("falSe")
     @pick = Commands::Base.new
-    @pick.options[:verbose].should be_false
+    @pick.options[:verbose].should be false
   end
 
   it "should be verbose by default" do
     Commands::Base.any_instance.stubs(:get).with("git config --get pivotal.verbose").returns("")
     @pick = Commands::Base.new
-    @pick.options[:verbose].should be_true
+    @pick.options[:verbose].should be true
   end
 
   it "should print a message if the API token is missing" do
@@ -109,29 +109,29 @@ describe Commands::Base do
   
   it "should set use_ssl to true with --use-ssl" do
     @pick = Commands::Base.new("--use-ssl").with(@input, @output)
-    @pick.options[:use_ssl].should be_true
+    @pick.options[:use_ssl].should be true
   end
 
   it "should set use_ssl to true with -S" do
     @pick = Commands::Base.new("-S").with(@input, @output)
-    @pick.options[:use_ssl].should be_true
+    @pick.options[:use_ssl].should be true
   end
 
   it "should set use_ssl to false by default" do
     @pick = Commands::Base.new("").with(@input, @output)
-    @pick.options[:use_ssl].should be_false
+    @pick.options[:use_ssl].should be false
   end
 
   it "should respect use_ssl from git config if it's set true (case insensitive)" do
     Commands::Base.any_instance.stubs(:get).with("git config --get pivotal.use-ssl").returns("truE")
     @pick = Commands::Base.new
-    @pick.options[:use_ssl].should be_true
+    @pick.options[:use_ssl].should be true
   end
 
   it "should respect use_ssl from git config if it's set to anything but true" do
     Commands::Base.any_instance.stubs(:get).with("git config --get pivotal.use-ssl").returns("not true")
     @pick = Commands::Base.new
-    @pick.options[:use_ssl].should be_false
+    @pick.options[:use_ssl].should be false
   end
 
 end

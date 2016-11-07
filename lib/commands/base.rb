@@ -72,6 +72,10 @@ module Commands
     def full_name
       options[:full_name]
     end
+
+    def initials
+      full_name.split.map{|s|s[0]}.map(&:capitalize).join()
+    end
     
     def remote
       options[:remote] || "origin"

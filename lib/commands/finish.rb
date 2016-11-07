@@ -11,8 +11,10 @@ module Commands
         return 1
       end
 
-      put "Marking Story #{story_id} as finished..."
-      if story.update(:current_state => finished_state)
+      begin
+        put "Marking Story #{story_id} as finished..."
+        story.current_state = finished_state
+        story.save
         put "Merging #{current_branch} into #{integration_branch}"
         sys "git checkout #{integration_branch}"
         sys "git merge --no-ff -m \"[##{story_id}] Merge branch '#{current_branch}' into #{integration_branch}\" #{current_branch}"
@@ -20,14 +22,11 @@ module Commands
         put "Destroying local branch"
         local_branch_deleted_successfully = sys "git branch -d #{current_branch}"
 
-        if local_branch_deleted_successfully
-          put "Destroying remote branch"
-          sys "git push origin :#{current_branch}"
-        else
+        if !local_branch_deleted_successfully
           put "The local branch could not be deleted.  Please make sure your changes have been merged."
           return 1
         end
-      else
+      rescue
         put "Unable to mark Story #{story_id} as finished"
         return 1
       end
@@ -50,7 +49,7 @@ module Commands
     end
 
     def story
-      @story ||= project.stories.find(story_id)
+      @story ||= project.story(story_id)
     end
   end
 end

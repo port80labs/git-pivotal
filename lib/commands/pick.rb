@@ -24,17 +24,17 @@ module Commands
         put "URL:   #{story.url}\n"
 
         if confirm_should_start_story?
-          put "Updating #{type} status in Pivotal Tracker..."
-          story.update(:owned_by => options[:full_name], :current_state => :started)
-
-          if story.errors.empty?
-            branch_name = get_branch_name
-            create_branch(branch_name)
-          else
+          begin
+            put "Updating #{type} status in Pivotal Tracker..."
+            story.current_state = :started
+            story.save
+          rescue
             put "Unable to mark #{type} as started"
             put "\t" + story.errors.to_a.join("\n\t")
             return 1
           end
+          branch_name = get_branch_name
+          create_branch(branch_name)
         end
       else
         put "No #{plural_type} available!"
@@ -48,7 +48,7 @@ module Commands
     def confirm_should_start_story?
       return true if options[:force]
 
-      put "Start #{type} #{story.id} - #{story.name}? (Y/n): ", false
+      put "Start #{story.story_type} #{story.id} - #{story.name}? (Y/n): ", false
       start_story = get_char.strip.downcase
       start_story == '' || start_story == 'y'
     end
@@ -59,17 +59,17 @@ module Commands
         msg += " for #{options[:full_name]}" if options[:only_mine]
         put "#{msg}..."
 
-        conditions = { :current_state => "unstarted", :limit => 1, :offset => 0 }
-        conditions.merge!(:story_type => type) unless type == "story"
-        conditions[:owned_by] = options[:full_name] if options[:only_mine]
-        @story = project.stories.all(conditions).first
+        conditions = { :filter => "state:unstarted ", :limit => 1, :offset => 0 }
+        conditions[:filter] += "type:#{type} " unless type == "story"
+        conditions[:filter] += "mywork:#{initials} " if options[:only_mine]
+        @story = project.stories(conditions).first
       end
       @story
     end
 
     def get_branch_name
       branch_name = ""
-      suggested_branch_name = "#{story.id}-#{story.name.downcase.gsub(/\s+/, "-")}"
+      suggested_branch_name = "#{story.story_type}-#{story.id}-#{story.name.downcase.gsub(/\s+/, "-")}"
 
       unless options[:quiet] || options[:defaults]
         put "Enter branch name [#{suggested_branch_name}]: ", false
@@ -82,13 +82,11 @@ module Commands
     def create_branch(branch)
       branch = Regexp.quote(branch)
       if get("git branch").match(branch).nil?
-        put "Creating remote branch '#{branch}'"
-        sys "git push origin origin:refs/heads/#{branch}"
-        sys "git fetch origin"
+        put "Setup new branch '#{branch}'"
+        sys "git checkout -b #{branch}"
 
-        put "Switched to a new branch '#{branch}'"
-        sys "git branch #{branch}"
-        sys "git checkout #{branch}"
+        # put "Creating remote branch '#{branch}'"
+        # sys "git push -u origin #{branch}"
       end
     end
 

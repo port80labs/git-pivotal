@@ -45,5 +45,5 @@ task :install do
   system "gem build git-pivotal.gemspec"
 
   puts "Installing..."
-  system "gem install git-pivotal-#{IO.read("VERSION")}"
+  system "gem install git-pivotal-#{IO.read("VERSION")}.gem"
 end

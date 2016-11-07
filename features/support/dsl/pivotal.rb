@@ -3,8 +3,7 @@ module GitPivotal
     module Pivotal
       def pivotal_project
         data[:pivotal_project] ||= (
-          PivotalTracker::Client.token = PIVOTAL_API_KEY
-          PivotalTracker::Project.find(PIVOTAL_TEST_PROJECT))
+          TrackerApi::Client.new(token: PIVOTAL_API_KEY).project(PIVOTAL_TEST_PROJECT))
       end
       
       def created_cards

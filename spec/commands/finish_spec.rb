@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe Commands::Finish do
 
+  def mock_client
+    @mock_client ||= mock('mock client')
+  end
+
   def mock_project_id
     @mock_project_id ||= '4321'
   end
@@ -45,7 +49,8 @@ describe Commands::Finish do
     # stub out git config requests
     Commands::Finish.any_instance.stubs(:get).with { |v| v =~ /git config/ }.returns("")
 
-    PivotalTracker::Project.stubs(:find).returns(mock_projects)
+    TrackerApi::Client.stubs(:new).returns(mock_client)
+    mock_client.stubs(:project).returns(mock_projects)
 
     @finish = Commands::Finish.new(nil, nil, "-p", mock_project_id)
     @finish.stubs(:put)

@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'pivotal-tracker'
+require 'tracker_api'
 require 'optparse'
 
 module Commands
@@ -52,9 +52,6 @@ module Commands
         return 1
       end
 
-      PivotalTracker::Client.token = options[:api_token]
-      PivotalTracker::Client.use_ssl = options[:use_ssl]
-
       return 0
     end
 
@@ -69,7 +66,7 @@ module Commands
     end
 
     def project
-      @project ||= PivotalTracker::Project.find(options[:project_id])
+      @project ||= client.project(options[:project_id])
     end
     
     def full_name
@@ -85,6 +82,10 @@ module Commands
     end
     
   private
+
+    def client
+      @client ||= TrackerApi::Client.new(token: options[:api_token])
+    end
 
     def parse_gitconfig
       token              = get("git config --get pivotal.api-token").strip
